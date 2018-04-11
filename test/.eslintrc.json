@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "no-unused-expressions": "off",
+    "no-new": "off",
+    "standard/no-callback-literal": "off"
+  },
+  "globals": {
+    "expect": true,
+    "sinon": true
+  },
+  "env": {
+    "mocha": true
+  },
+  "plugins": [
+    "mocha"
+  ]
+}

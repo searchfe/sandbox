@@ -1,0 +1,19 @@
+language: node_js
+sudo: required
+dist: trusty
+node_js:
+  - lts/*
+env:
+  - BROWSER=ChromeHeadless
+addons:
+  chrome: stable
+cache:
+  directories:
+    - "node_modules"
+script:
+  - npm install -g apmjs
+  - apm install
+  - npm run lint
+  - npm run ci
+before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &

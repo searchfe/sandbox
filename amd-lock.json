@@ -1,0 +1,14 @@
+{
+  "name": "@searchfe/sandbox",
+  "version": "1.0.4",
+  "dependencies": {
+    "@searchfe/assert": {
+      "version": "1.0.0",
+      "integrity": "sha512-INeZlzcMK1ainjU9FpBf8jrqq7wzFF0eDb5JCrHpp/fMzdIlbdDfhM3bprtzrSmOo/rA7AdP4Ch8p4RNxuj2jg=="
+    },
+    "@searchfe/underscore": {
+      "version": "1.0.1",
+      "integrity": "sha512-H4iktWJdRcG0XYOKkHOZoOvZH7Ag/FTwMTFhCH91ojy8dh2opcP36UUs3X8Jz7t6DKcKWLGpQJWmS5GMDymm/g=="
+    }
+  }
+}

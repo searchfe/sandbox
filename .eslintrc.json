@@ -1,0 +1,15 @@
+{
+  "env": {
+    "amd": true
+  },
+  "rules": {
+    "no-extend-native": "off",
+    "indent": ["error", 4],
+    "semi": ["error", "always"]
+  },
+  "globals": {
+    "HTMLElement": true,
+    "Event": true
+  },
+  "extends": "standard"
+}
