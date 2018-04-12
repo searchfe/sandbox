@@ -5,7 +5,7 @@
   "main": "src/sandbox.js",
   "scripts": {
     "lint": "eslint src test *.js",
-    "doc": "jsdoc2md --plugin dmd-bitbucket --template doc.hbs src/*.js src/apis/*.js > README.md",
+    "doc": "jsdoc2md --template README.hbs src/*.js src/apis/*.js > README.md",
     "preversion": "npm run lint && npm test",
     "version": "npm run doc",
     "postversion": "git push && git push --tags",
@@ -24,7 +24,6 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
-    "dmd-bitbucket": "^0.1.10",
     "eslint": "^3.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",

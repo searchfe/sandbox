@@ -10,41 +10,56 @@ apmjs install @searchfe/sandbox
 ```
 
 ## Modules
-Module | Description
------- | -----------
-[Element](#markdown-header-element) | 沙盒 Scope 中的 HTMLElement 表示，提供给沙盒内的业务逻辑使用，相当于浏览器的 HTMLElement。
-[Sandbox](#markdown-header-sandbox) | 沙盒实例，创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
-[Scope](#markdown-header-scope) | 沙盒环境，提供给沙盒内的业务逻辑使用，相当于浏览器的 window。
+
+<dl>
+<dt><a href="#module_Element">Element</a></dt>
+<dd><p>沙盒 Scope 中的 HTMLElement 表示，提供给沙盒内的业务逻辑使用，相当于浏览器的 HTMLElement。</p>
+</dd>
+<dt><a href="#module_Sandbox">Sandbox</a></dt>
+<dd><p>沙盒实例，创建后默认处于睡眠状态。需要调用 <code>sandbox.run()</code> 让它开始工作。</p>
+</dd>
+<dt><a href="#module_Scope">Scope</a></dt>
+<dd><p>沙盒环境，提供给沙盒内的业务逻辑使用，相当于浏览器的 window。</p>
+</dd>
+</dl>
+
+<a name="module_Element"></a>
 
 ## Element
 沙盒 Scope 中的 HTMLElement 表示，提供给沙盒内的业务逻辑使用，相当于浏览器的 HTMLElement。
 
 
-* [Element](#markdown-header-element)
-    * [.addEventListener(event, cb, useCapture)](#markdown-header-elementaddeventlistenerevent-cb-usecapture)
-    * [.removeEventListener(event, cb, useCapture)](#markdown-header-elementremoveeventlistenerevent-cb-usecapture)
+* [Element](#module_Element)
+    * [.addEventListener(event, cb, useCapture)](#module_Element+addEventListener)
+    * [.removeEventListener(event, cb, useCapture)](#module_Element+removeEventListener)
+
+<a name="module_Element+addEventListener"></a>
 
 ### element.addEventListener(event, cb, useCapture)
 Add an event listener to the hosted object (this
 
-**Kind**: instance method of [Element](#markdown-header-element)  
+**Kind**: instance method of [<code>Element</code>](#module_Element)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| event | String | The event type |
-| cb | function | The event listener |
-| useCapture | Boolean | Whether or not use capture |
+| event | <code>String</code> | The event type |
+| cb | <code>function</code> | The event listener |
+| useCapture | <code>Boolean</code> | Whether or not use capture |
+
+<a name="module_Element+removeEventListener"></a>
 
 ### element.removeEventListener(event, cb, useCapture)
 Remove an event listener to the hosted object (this
 
-**Kind**: instance method of [Element](#markdown-header-element)  
+**Kind**: instance method of [<code>Element</code>](#module_Element)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| event | String | The event type |
-| cb | function | The event listener |
-| useCapture | Boolean | Whether or not use capture |
+| event | <code>String</code> | The event type |
+| cb | <code>function</code> | The event listener |
+| useCapture | <code>Boolean</code> | Whether or not use capture |
+
+<a name="module_Sandbox"></a>
 
 ## Sandbox
 沙盒实例，创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
@@ -52,7 +67,7 @@ Remove an event listener to the hosted object (this
 
 | Param | Type | Description |
 | --- | --- | --- |
-| element | function | 沙盒对应的 DOM 根元素 |
+| element | <code>function</code> | 沙盒对应的 DOM 根元素 |
 
 **Example**  
 ```js
@@ -67,62 +82,76 @@ require(['@searchfe/sandbox'], function(Sandbox){
 })
 ```
 
-* [Sandbox](#markdown-header-sandbox)
-    * [.run()](#markdown-header-sandboxrun)
-    * [.stop()](#markdown-header-sandboxstop)
-    * [.die()](#markdown-header-sandboxdie)
-    * [.on(type, cb)](#markdown-header-sandboxontype-cb)
-    * [.off(type, cb)](#markdown-header-sandboxofftype-cb)
+* [Sandbox](#module_Sandbox)
+    * [.run()](#module_Sandbox+run)
+    * [.stop()](#module_Sandbox+stop)
+    * [.die()](#module_Sandbox+die)
+    * [.on(type, cb)](#module_Sandbox+on)
+    * [.off(type, cb)](#module_Sandbox+off)
+
+<a name="module_Sandbox+run"></a>
 
 ### sandbox.run()
 让沙盒开始工作，开始接管事件、定时器、以及网络回调。
 
-**Kind**: instance method of [Sandbox](#markdown-header-sandbox)  
+**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
+<a name="module_Sandbox+stop"></a>
+
 ### sandbox.stop()
 停止沙盒，冻结定时器和网络回调、忽略事件。
 
-**Kind**: instance method of [Sandbox](#markdown-header-sandbox)  
+**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
+<a name="module_Sandbox+die"></a>
+
 ### sandbox.die()
 杀死沙盒，销毁内部的定时器、网络、事件回调。一旦杀死不可重新开始工作。
 
-**Kind**: instance method of [Sandbox](#markdown-header-sandbox)  
+**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
+<a name="module_Sandbox+on"></a>
+
 ### sandbox.on(type, cb)
 Add a listener to the sandbox, available event types: run, stop, die
 
-**Kind**: instance method of [Sandbox](#markdown-header-sandbox)  
+**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
 **Throws**:
 
-- Error event type not defined
+- <code>Error</code> event type not defined
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| type | function | the event type |
-| cb | function | the reslver |
+| type | <code>function</code> | the event type |
+| cb | <code>function</code> | the reslver |
+
+<a name="module_Sandbox+off"></a>
 
 ### sandbox.off(type, cb)
 Remove a listener to the sandbox, available event types: run, stop, die
 
-**Kind**: instance method of [Sandbox](#markdown-header-sandbox)  
+**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
 **Throws**:
 
-- Error event type not defined
+- <code>Error</code> event type not defined
 
 
 | Param | Type | Description |
 | --- | --- | --- |
-| type | function | the event type |
-| cb | function | the reslver |
+| type | <code>function</code> | the event type |
+| cb | <code>function</code> | the reslver |
+
+<a name="module_Scope"></a>
 
 ## Scope
 沙盒环境，提供给沙盒内的业务逻辑使用，相当于浏览器的 window。
 
 
-* [Scope](#markdown-header-scope)
-    * [.setInterval(fn, timeout)](#markdown-header-scopesetintervalfn-timeout)
-    * [.clearInterval(id)](#markdown-header-scopeclearintervalid)
-    * [.setTimeout(fn, timeout)](#markdown-header-scopesettimeoutfn-timeout)
-    * [.clearTimeout(id)](#markdown-header-scopecleartimeoutid)
+* [Scope](#module_Scope)
+    * [.setInterval(fn, timeout)](#module_Scope+setInterval)
+    * [.clearInterval(id)](#module_Scope+clearInterval)
+    * [.setTimeout(fn, timeout)](#module_Scope+setTimeout)
+    * [.clearTimeout(id)](#module_Scope+clearTimeout)
+
+<a name="module_Scope+setInterval"></a>
 
 ### scope.setInterval(fn, timeout)
 The setInterval() method repeatedly calls a function or executes a code snippet,
@@ -130,41 +159,47 @@ with a fixed time delay between each call.
 It returns an interval ID which uniquely identifies the interval,
 so you can remove it later by calling clearInterval()
 
-**Kind**: instance method of [Scope](#markdown-header-scope)  
+**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fn | function | The scheduled callback |
-| timeout | Number | Time inteval in millisecond |
+| fn | <code>function</code> | The scheduled callback |
+| timeout | <code>Number</code> | Time inteval in millisecond |
+
+<a name="module_Scope+clearInterval"></a>
 
 ### scope.clearInterval(id)
 移除定时器
 
-**Kind**: instance method of [Scope](#markdown-header-scope)  
+**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| id | Number | 定时器 ID，即 setInteval 的返回值 |
+| id | <code>Number</code> | 定时器 ID，即 setInteval 的返回值 |
+
+<a name="module_Scope+setTimeout"></a>
 
 ### scope.setTimeout(fn, timeout)
 The setTimeout() method sets a timer which executes a function or
 specified piece of code once after the timer expires.
 
-**Kind**: instance method of [Scope](#markdown-header-scope)  
+**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| fn | function | The scheduled callback |
-| timeout | Number | Time in millisecond |
+| fn | <code>function</code> | The scheduled callback |
+| timeout | <code>Number</code> | Time in millisecond |
+
+<a name="module_Scope+clearTimeout"></a>
 
 ### scope.clearTimeout(id)
 移除定时器
 
-**Kind**: instance method of [Scope](#markdown-header-scope)  
+**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| id | Number | 定时器 ID，即 setTimeout 的返回值 |
+| id | <code>Number</code> | 定时器 ID，即 setTimeout 的返回值 |
 
 
 [apmjs]: https://github.com/apmjs/apmjs
