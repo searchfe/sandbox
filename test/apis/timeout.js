@@ -33,8 +33,8 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
                 var listener = sinon.spy();
                 sandbox.stop();
                 sandbox.scope.setTimeout(listener);
-                sandbox.run();
                 setTimeout(function () {
+                    sandbox.run();
                     expect(listener).to.have.been.called;
                     done();
                 });
@@ -54,7 +54,6 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
                 var listener = sinon.spy();
                 sandbox.scope.setInterval(listener, 1);
                 setTimeout(function () {
-                    console.log(listener.callCount);
                     expect(listener.callCount).to.be.at.least(5);
                     done();
                 }, 100);

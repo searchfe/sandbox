@@ -57,6 +57,6 @@ define(function () {
             writable: false
         });
 
-        return { die: removeAllEventListener };
+        sandbox.on('die', removeAllEventListener);
     };
 });

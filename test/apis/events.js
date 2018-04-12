@@ -66,5 +66,16 @@ define(['src/apis/events', 'src/sandbox', '../stub'], function (events, Sandbox,
             });
             window.dispatchEvent(new Event('click'));
         });
+
+        it('should removeall listeners once dead', function (done) {
+            var listener = sinon.spy();
+            sandbox.scope.addEventListener('click', listener);
+            sandbox.die();
+            stub.once(window, 'click', function () {
+                expect(listener).to.not.have.been.called;
+                done();
+            });
+            window.dispatchEvent(new Event('click'));
+        });
     });
 });
