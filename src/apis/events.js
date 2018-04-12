@@ -1,12 +1,34 @@
+/**
+* A module representing a shirt.
+* @alias module:Element
+*/
 define(function () {
     return function (scope, sandbox) {
         var listeners = Object.create(null);
 
+        /**
+         * Add an event listener to the hosted object (this
+         *
+         * @instance
+         * @memberOf module:Element
+         * @param {String} event The event type
+         * @param {Function} cb The event listener
+         * @param {Boolean} useCapture Whether or not use capture
+         */
         function addEventListener (event, cb, useCapture) {
             var item = record(event, cb, useCapture);
             window.addEventListener(event, item.listener, useCapture);
         }
 
+        /**
+         * Remove an event listener to the hosted object (this
+         *
+         * @instance
+         * @memberOf module:Element
+         * @param {String} event The event type
+         * @param {Function} cb The event listener
+         * @param {Boolean} useCapture Whether or not use capture
+         */
         function removeEventListener (event, cb, useCapture) {
             var item = retrieve(event, cb, useCapture);
             if (item) {

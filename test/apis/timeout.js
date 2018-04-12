@@ -49,6 +49,37 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
                 });
             });
         });
+        describe('clearTimeout', function () {
+            it('should clear callback', function (done) {
+                var listener = sinon.spy();
+                var id = sandbox.scope.setTimeout(listener);
+                sandbox.scope.clearTimeout(id);
+                setTimeout(function () {
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+            it('should work even when stopped', function (done) {
+                var listener = sinon.spy();
+                sandbox.stop();
+                var id = sandbox.scope.setTimeout(listener);
+                sandbox.scope.clearTimeout(id);
+                setTimeout(function () {
+                    sandbox.run();
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+            it('should clear timeouts once dead', function (done) {
+                var listener = sinon.spy();
+                sandbox.scope.setTimeout(listener);
+                sandbox.die();
+                setTimeout(function () {
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+        });
         describe('setInterval', function () {
             it('should call callback', function (done) {
                 var listener = sinon.spy();
@@ -81,6 +112,37 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
                 var listener = sinon.spy();
                 sandbox.die();
                 sandbox.scope.setInterval(listener, 1);
+                setTimeout(function () {
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+        });
+        describe('clearInteval', function () {
+            it('should clear callback', function (done) {
+                var listener = sinon.spy();
+                var id = sandbox.scope.setInterval(listener, 1);
+                sandbox.scope.clearInterval(id);
+                setTimeout(function () {
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+            it('should work even when stopped', function (done) {
+                var listener = sinon.spy();
+                sandbox.stop();
+                var id = sandbox.scope.setInterval(listener, 1);
+                sandbox.scope.clearInterval(id);
+                setTimeout(function () {
+                    sandbox.run();
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+            it('should clear timeouts once dead', function (done) {
+                var listener = sinon.spy();
+                sandbox.scope.setInterval(listener, 1);
+                sandbox.die();
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
                     done();

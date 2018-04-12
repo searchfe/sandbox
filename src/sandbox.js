@@ -3,23 +3,29 @@ define(function (require) {
     var dom = require('./utils/dom');
     var delegate = require('./delegate');
     var states = require('./states');
+    var scope = require('./scope');
 
     /**
-     * Create a new sandbox.
-     * The passed in function will receive functions resolve and reject as its arguments
-     * which can be called to seal the fate of the created sandbox.
+     * 沙盒实例，创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
      *
-     * The returned sandbox will be resolved when resolve is called, and rejected when reject called or any exception occurred.
-     * If you pass a sandbox object to the resolve function, the created sandbox will follow the state of that sandbox.
-     *
-     * @param {Function} cb The resolver callback.
+     * @param {Function} element 沙盒对应的 DOM 根元素
      * @constructor
-     * @alias module:Sandbox
+     * @module Sandbox
+     * @example
+     * require(['@searchfe/sandbox'], function(Sandbox){
+     *   var sandbox = new Sandbox(document.querySelector('#app'))
+     *   sandbox.run();
+     *   sandbox.setInterval(() => console.log('timeout!'), 100)
+     *   setTimeout(function(){
+     *     sandbox.stop();
+     *     // sandbox.die();
+     *   }, 5000);
+     * })
      */
     function Sandbox (element) {
         assert(dom.isElement(element), 'an HTMLElement should be passed to create a sandbox');
         this.delegate = delegate(this);
-        this.scope = Object.create(null);
+        this.scope = scope();
         this.listeners = {
             run: [],
             die: [],
@@ -31,68 +37,78 @@ define(function (require) {
         }, this);
     }
 
-    /**
-     * Resolve the un-trusted sandbox definition function: fn
-     * which has exactly the same signature as the .then function
-     *
-     * @param {Function} fn the reslver
-     */
-    Sandbox.prototype.run = function (result) {
-        assert(this.state !== states.DEAD, 'I\'m dead, leave me alone');
-        if (this.state === states.RUNNING) {
-            return false;
-        }
-        this.state = states.RUNNING;
-        this.trigger('run');
-    };
+    Sandbox.prototype = /** @lends module:Sandbox# */ {
+        /**
+         * 让沙盒开始工作，开始接管事件、定时器、以及网络回调。
+         */
+        run: function () {
+            assert(this.state !== states.DEAD, 'I\'m dead, leave me alone');
+            if (this.state === states.RUNNING) {
+                return false;
+            }
+            this.state = states.RUNNING;
+            this.trigger('run');
+        },
 
-    /**
-     * Resolve the un-trusted sandbox definition function: fn
-     * which has exactly the same signature as the .then function
-     *
-     * @param {Function} fn the reslver
-     */
-    Sandbox.prototype.stop = function (result) {
-        assert(this.state !== states.DEAD, 'I\'m dead, leave me alone');
-        if (this.state === states.IDLE) {
-            return false;
-        }
-        this.state = states.IDLE;
-        this.trigger('stop');
-    };
+        /**
+         * 停止沙盒，冻结定时器和网络回调、忽略事件。
+         */
+        stop: function () {
+            assert(this.state !== states.DEAD, 'I\'m dead, leave me alone');
+            if (this.state === states.IDLE) {
+                return false;
+            }
+            this.state = states.IDLE;
+            this.trigger('stop');
+        },
 
-    /**
-     * Resolve the un-trusted sandbox definition function: fn
-     * which has exactly the same signature as the .then function
-     *
-     * @param {Function} fn the reslver
-     */
-    Sandbox.prototype.die = function (result) {
-        if (this.state === states.DEAD) {
-            return false;
-        }
-        this.state = states.DEAD;
-        this.trigger('die');
-    };
+        /**
+         * 杀死沙盒，销毁内部的定时器、网络、事件回调。一旦杀死不可重新开始工作。
+         */
+        die: function () {
+            if (this.state === states.DEAD) {
+                return false;
+            }
+            this.state = states.DEAD;
+            this.trigger('die');
+        },
 
-    Sandbox.prototype.on = function (type, cb) {
-        assert(this.listeners[type], 'event type ' + type + ' not defined');
-        cb && this.listeners[type].push(cb);
-    };
+        /**
+         * Add a listener to the sandbox, available event types: run, stop, die
+         *
+         * @param {Function} type the event type
+         * @param {Function} cb the reslver
+         * @throws {Error} event type not defined
+         */
+        on: function (type, cb) {
+            assert(this.listeners[type], 'event type ' + type + ' not defined');
+            cb && this.listeners[type].push(cb);
+        },
 
-    Sandbox.prototype.trigger = function (type) {
-        assert(this.listeners[type], 'event type ' + type + ' not defined');
-        this.listeners[type].forEach(function (listener) {
-            listener();
-        });
-    };
+        /**
+         * @private
+         */
+        trigger: function (type) {
+            assert(this.listeners[type], 'event type ' + type + ' not defined');
+            this.listeners[type].forEach(function (listener) {
+                listener();
+            });
+        },
 
-    Sandbox.prototype.off = function (type, cb) {
-        assert(this.listeners[type], 'event type ' + type + ' not defined');
-        var list = this.listeners[type];
-        for (var i = 0; i < list.length; i++) {
-            if (list[i] === cb) {
-                list.splice(i--, 1);
+        /**
+         * Remove a listener to the sandbox, available event types: run, stop, die
+         *
+         * @param {Function} type the event type
+         * @param {Function} cb the reslver
+         * @throws {Error} event type not defined
+         */
+        off: function (type, cb) {
+            assert(this.listeners[type], 'event type ' + type + ' not defined');
+            var list = this.listeners[type];
+            for (var i = 0; i < list.length; i++) {
+                if (list[i] === cb) {
+                    list.splice(i--, 1);
+                }
             }
         }
     };
