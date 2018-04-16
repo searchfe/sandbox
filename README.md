@@ -1,4 +1,4 @@
-# sandbox
+# @searchfe/sandbox
 
 [![Build Status](https://travis-ci.org/searchfe/sandbox.svg?branch=master)](https://travis-ci.org/searchfe/sandbox)
 [![Coverage Status](https://coveralls.io/repos/github/searchfe/sandbox/badge.svg?branch=master)](https://coveralls.io/github/searchfe/sandbox?branch=master)
@@ -9,49 +9,47 @@
 apmjs install @searchfe/sandbox
 ```
 
-## Modules
+## Classes
 
 <dl>
-<dt><a href="#module_Element">Element</a></dt>
-<dd><p>沙盒 Scope 中的 HTMLElement 表示，提供给沙盒内的业务逻辑使用，相当于浏览器的 HTMLElement。</p>
+<dt><a href="#Sandbox">Sandbox</a></dt>
+<dd><p>沙盒实例 创建后默认处于睡眠状态。需要调用 <code>sandbox.run()</code> 让它开始工作。</p>
 </dd>
-<dt><a href="#module_Sandbox">Sandbox</a></dt>
-<dd><p>沙盒实例，创建后默认处于睡眠状态。需要调用 <code>sandbox.run()</code> 让它开始工作。</p>
+<dt><a href="#Scope">Scope</a></dt>
+<dd><p>沙盒上下文 提供给沙盒内的业务逻辑使用，相当于浏览器的 window。</p>
 </dd>
-<dt><a href="#module_Scope">Scope</a></dt>
-<dd><p>沙盒环境，提供给沙盒内的业务逻辑使用，相当于浏览器的 window。</p>
+<dt><a href="#Document">Document</a></dt>
+<dd><p>沙盒文档 只实现 window.document 的一个子集，托管了所有事件，页面属性等。</p>
 </dd>
 </dl>
 
-<a name="module_Element"></a>
+## Interfaces
 
-## Element
-沙盒 Scope 中的 HTMLElement 表示，提供给沙盒内的业务逻辑使用，相当于浏览器的 HTMLElement。
+<dl>
+<dt><a href="#EventTarget">EventTarget</a></dt>
+<dd><p>事件接口，用于托管全局事件。Scope 和 Document 对象实现了该接口。
+根元素以下的事件监听不予监听，见：<a href="https://github.com/searchfe/sandbox/issues/2">https://github.com/searchfe/sandbox/issues/2</a></p>
+</dd>
+</dl>
 
+<a name="EventTarget"></a>
 
-* [Element](#module_Element)
-    * [.addEventListener(event, cb, useCapture)](#module_Element+addEventListener)
-    * [.removeEventListener(event, cb, useCapture)](#module_Element+removeEventListener)
+## EventTarget
+事件接口，用于托管全局事件。Scope 和 Document 对象实现了该接口。
+根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
 
-<a name="module_Element+addEventListener"></a>
+**Kind**: global interface  
 
-### element.addEventListener(event, cb, useCapture)
-Add an event listener to the hosted object (this
+* [EventTarget](#EventTarget)
+    * [.addEventListener(event, cb, useCapture)](#EventTarget.addEventListener)
+    * [.removeEventListener(event, cb, useCapture)](#EventTarget.removeEventListener)
 
-**Kind**: instance method of [<code>Element</code>](#module_Element)  
+<a name="EventTarget.addEventListener"></a>
 
-| Param | Type | Description |
-| --- | --- | --- |
-| event | <code>String</code> | The event type |
-| cb | <code>function</code> | The event listener |
-| useCapture | <code>Boolean</code> | Whether or not use capture |
+### EventTarget.addEventListener(event, cb, useCapture)
+Add an event listener to the hosted object
 
-<a name="module_Element+removeEventListener"></a>
-
-### element.removeEventListener(event, cb, useCapture)
-Remove an event listener to the hosted object (this
-
-**Kind**: instance method of [<code>Element</code>](#module_Element)  
+**Kind**: static method of [<code>EventTarget</code>](#EventTarget)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -59,10 +57,38 @@ Remove an event listener to the hosted object (this
 | cb | <code>function</code> | The event listener |
 | useCapture | <code>Boolean</code> | Whether or not use capture |
 
-<a name="module_Sandbox"></a>
+<a name="EventTarget.removeEventListener"></a>
+
+### EventTarget.removeEventListener(event, cb, useCapture)
+Remove an event listener to the hosted object
+
+**Kind**: static method of [<code>EventTarget</code>](#EventTarget)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| event | <code>String</code> | The event type |
+| cb | <code>function</code> | The event listener |
+| useCapture | <code>Boolean</code> | Whether or not use capture |
+
+<a name="Sandbox"></a>
 
 ## Sandbox
-沙盒实例，创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
+沙盒实例 创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
+
+**Kind**: global class  
+
+* [Sandbox](#Sandbox)
+    * [new Sandbox(element)](#new_Sandbox_new)
+    * [.run()](#Sandbox+run)
+    * [.stop()](#Sandbox+stop)
+    * [.die()](#Sandbox+die)
+    * [.on(type, cb)](#Sandbox+on)
+    * [.off(type, cb)](#Sandbox+off)
+
+<a name="new_Sandbox_new"></a>
+
+### new Sandbox(element)
+创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
 
 
 | Param | Type | Description |
@@ -81,38 +107,30 @@ require(['@searchfe/sandbox'], function(Sandbox){
   }, 5000);
 })
 ```
-
-* [Sandbox](#module_Sandbox)
-    * [.run()](#module_Sandbox+run)
-    * [.stop()](#module_Sandbox+stop)
-    * [.die()](#module_Sandbox+die)
-    * [.on(type, cb)](#module_Sandbox+on)
-    * [.off(type, cb)](#module_Sandbox+off)
-
-<a name="module_Sandbox+run"></a>
+<a name="Sandbox+run"></a>
 
 ### sandbox.run()
 让沙盒开始工作，开始接管事件、定时器、以及网络回调。
 
-**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
-<a name="module_Sandbox+stop"></a>
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
+<a name="Sandbox+stop"></a>
 
 ### sandbox.stop()
 停止沙盒，冻结定时器和网络回调、忽略事件。
 
-**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
-<a name="module_Sandbox+die"></a>
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
+<a name="Sandbox+die"></a>
 
 ### sandbox.die()
 杀死沙盒，销毁内部的定时器、网络、事件回调。一旦杀死不可重新开始工作。
 
-**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
-<a name="module_Sandbox+on"></a>
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
+<a name="Sandbox+on"></a>
 
 ### sandbox.on(type, cb)
 Add a listener to the sandbox, available event types: run, stop, die
 
-**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
 **Throws**:
 
 - <code>Error</code> event type not defined
@@ -121,14 +139,14 @@ Add a listener to the sandbox, available event types: run, stop, die
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>function</code> | the event type |
-| cb | <code>function</code> | the reslver |
+| cb | <code>function</code> | the callback |
 
-<a name="module_Sandbox+off"></a>
+<a name="Sandbox+off"></a>
 
 ### sandbox.off(type, cb)
 Remove a listener to the sandbox, available event types: run, stop, die
 
-**Kind**: instance method of [<code>Sandbox</code>](#module_Sandbox)  
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
 **Throws**:
 
 - <code>Error</code> event type not defined
@@ -137,21 +155,35 @@ Remove a listener to the sandbox, available event types: run, stop, die
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>function</code> | the event type |
-| cb | <code>function</code> | the reslver |
+| cb | <code>function</code> | the callback |
 
-<a name="module_Scope"></a>
+<a name="Scope"></a>
 
 ## Scope
-沙盒环境，提供给沙盒内的业务逻辑使用，相当于浏览器的 window。
+沙盒上下文 提供给沙盒内的业务逻辑使用，相当于浏览器的 window。
+
+**Kind**: global class  
+**Implements**: [<code>EventTarget</code>](#EventTarget)  
+
+* [Scope](#Scope)
+    * [new Scope(element, sandbox)](#new_Scope_new)
+    * [.setInterval(fn, timeout)](#Scope+setInterval)
+    * [.clearInterval(id)](#Scope+clearInterval)
+    * [.setTimeout(fn, timeout)](#Scope+setTimeout)
+    * [.clearTimeout(id)](#Scope+clearTimeout)
+
+<a name="new_Scope_new"></a>
+
+### new Scope(element, sandbox)
+创建一个沙盒上下文
 
 
-* [Scope](#module_Scope)
-    * [.setInterval(fn, timeout)](#module_Scope+setInterval)
-    * [.clearInterval(id)](#module_Scope+clearInterval)
-    * [.setTimeout(fn, timeout)](#module_Scope+setTimeout)
-    * [.clearTimeout(id)](#module_Scope+clearTimeout)
+| Param | Type | Description |
+| --- | --- | --- |
+| element | <code>HTMLElement</code> | 沙盒的根 DOM 元素 |
+| sandbox | [<code>Sandbox</code>](#Sandbox) | 绑定到的沙盒对象 |
 
-<a name="module_Scope+setInterval"></a>
+<a name="Scope+setInterval"></a>
 
 ### scope.setInterval(fn, timeout)
 The setInterval() method repeatedly calls a function or executes a code snippet,
@@ -159,47 +191,65 @@ with a fixed time delay between each call.
 It returns an interval ID which uniquely identifies the interval,
 so you can remove it later by calling clearInterval()
 
-**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
+**Kind**: instance method of [<code>Scope</code>](#Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | fn | <code>function</code> | The scheduled callback |
 | timeout | <code>Number</code> | Time inteval in millisecond |
 
-<a name="module_Scope+clearInterval"></a>
+<a name="Scope+clearInterval"></a>
 
 ### scope.clearInterval(id)
 移除定时器
 
-**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
+**Kind**: instance method of [<code>Scope</code>](#Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>Number</code> | 定时器 ID，即 setInteval 的返回值 |
 
-<a name="module_Scope+setTimeout"></a>
+<a name="Scope+setTimeout"></a>
 
 ### scope.setTimeout(fn, timeout)
 The setTimeout() method sets a timer which executes a function or
 specified piece of code once after the timer expires.
 
-**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
+**Kind**: instance method of [<code>Scope</code>](#Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | fn | <code>function</code> | The scheduled callback |
 | timeout | <code>Number</code> | Time in millisecond |
 
-<a name="module_Scope+clearTimeout"></a>
+<a name="Scope+clearTimeout"></a>
 
 ### scope.clearTimeout(id)
 移除定时器
 
-**Kind**: instance method of [<code>Scope</code>](#module_Scope)  
+**Kind**: instance method of [<code>Scope</code>](#Scope)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | id | <code>Number</code> | 定时器 ID，即 setTimeout 的返回值 |
+
+<a name="Document"></a>
+
+## Document
+沙盒文档 只实现 window.document 的一个子集，托管了所有事件，页面属性等。
+
+**Kind**: global class  
+**Implements**: [<code>EventTarget</code>](#EventTarget)  
+<a name="new_Document_new"></a>
+
+### new Document(scope, sandbox)
+创建一个文档对象
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| scope | [<code>Scope</code>](#Scope) | 沙盒上下文 |
+| sandbox | [<code>Sandbox</code>](#Sandbox) | 对应的沙盒对象 |
 
 
 [apmjs]: https://github.com/apmjs/apmjs

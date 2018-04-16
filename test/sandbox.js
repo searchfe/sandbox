@@ -1,19 +1,10 @@
 define(['src/sandbox'], function (Sandbox) {
     describe('Sandbox', function () {
         describe('new', function () {
-            afterEach(function () {
-                Sandbox.apis = [];
-            });
             it('should throw when root element not passed', function () {
                 expect(function () {
                     new Sandbox();
                 }).to.throw(/HTMLElement should be passed/);
-            });
-            it('should register apis', function () {
-                var api = sinon.spy();
-                Sandbox.apis = [api];
-                var sandbox = new Sandbox(document.createElement('div'));
-                expect(api).to.have.been.calledWith(sandbox.scope, sandbox);
             });
         });
         describe('lifecycle', function () {

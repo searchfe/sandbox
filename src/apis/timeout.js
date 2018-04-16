@@ -1,8 +1,5 @@
-/**
-* @alias module:Scope
-*/
 define(function () {
-    return function (scope, sandbox) {
+    return function (sandbox) {
         var timeouts = Object.create(null);
         var intevals = Object.create(null);
 
@@ -13,7 +10,7 @@ define(function () {
          * so you can remove it later by calling clearInterval()
          *
          * @instance
-         * @memberOf module:Scope
+         * @memberOf Scope
          * @param {Function} fn The scheduled callback
          * @param {Number} timeout Time inteval in millisecond
          */
@@ -28,7 +25,7 @@ define(function () {
          * 移除定时器
          *
          * @instance
-         * @memberOf module:Scope
+         * @memberOf Scope
          * @param {Number} id 定时器 ID，即 setInteval 的返回值
          */
         function clearInterval (id) {
@@ -41,7 +38,7 @@ define(function () {
          * specified piece of code once after the timer expires.
          *
          * @instance
-         * @memberOf module:Scope
+         * @memberOf Scope
          * @param {Function} fn The scheduled callback
          * @param {Number} timeout Time in millisecond
          */
@@ -56,7 +53,7 @@ define(function () {
          * 移除定时器
          *
          * @instance
-         * @memberOf module:Scope
+         * @memberOf Scope
          * @param {Number} id 定时器 ID，即 setTimeout 的返回值
          */
         function clearTimeout (id) {
@@ -64,29 +61,16 @@ define(function () {
             window.clearTimeout(id);
         }
 
-        Object.defineProperty(scope, 'setInterval', {
-            value: setInterval,
-            writable: false
-        });
-
-        Object.defineProperty(scope, 'clearInterval', {
-            value: clearInterval,
-            writable: false
-        });
-
-        Object.defineProperty(scope, 'setTimeout', {
-            value: setTimeout,
-            writable: false
-        });
-
-        Object.defineProperty(scope, 'clearTimeout', {
-            value: clearTimeout,
-            writable: false
-        });
-
         sandbox.on('die', function () {
             Object.keys(timeouts).forEach(clearTimeout);
             Object.keys(intevals).forEach(clearInterval);
         });
+
+        return {
+            setInterval: setInterval,
+            clearInterval: clearInterval,
+            setTimeout: setTimeout,
+            clearTimeout: clearTimeout
+        };
     };
 });

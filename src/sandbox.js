@@ -3,14 +3,14 @@ define(function (require) {
     var dom = require('./utils/dom');
     var delegate = require('./delegate');
     var states = require('./states');
-    var scope = require('./scope');
+    var Scope = require('./scope');
 
     /**
-     * 沙盒实例，创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
+     * 创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
      *
+     * @class 沙盒实例 创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
+     * @alias Sandbox
      * @param {Function} element 沙盒对应的 DOM 根元素
-     * @constructor
-     * @module Sandbox
      * @example
      * require(['@searchfe/sandbox'], function(Sandbox){
      *   var sandbox = new Sandbox(document.querySelector('#app'))
@@ -25,19 +25,15 @@ define(function (require) {
     function Sandbox (element) {
         assert(dom.isElement(element), 'an HTMLElement should be passed to create a sandbox');
         this.delegate = delegate(this);
-        this.scope = scope();
         this.listeners = {
             run: [],
             die: [],
             stop: []
         };
-
-        Sandbox.apis.forEach(function (factory) {
-            factory(this.scope, this);
-        }, this);
+        this.scope = new Scope(element, this);
     }
 
-    Sandbox.prototype = /** @lends module:Sandbox# */ {
+    Sandbox.prototype = {
         /**
          * 让沙盒开始工作，开始接管事件、定时器、以及网络回调。
          */
@@ -77,7 +73,7 @@ define(function (require) {
          * Add a listener to the sandbox, available event types: run, stop, die
          *
          * @param {Function} type the event type
-         * @param {Function} cb the reslver
+         * @param {Function} cb the callback
          * @throws {Error} event type not defined
          */
         on: function (type, cb) {
@@ -99,7 +95,7 @@ define(function (require) {
          * Remove a listener to the sandbox, available event types: run, stop, die
          *
          * @param {Function} type the event type
-         * @param {Function} cb the reslver
+         * @param {Function} cb the callback
          * @throws {Error} event type not defined
          */
         off: function (type, cb) {
@@ -113,6 +109,5 @@ define(function (require) {
         }
     };
 
-    Sandbox.apis = [];
     return Sandbox;
 });

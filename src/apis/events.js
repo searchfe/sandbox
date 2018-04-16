@@ -1,16 +1,17 @@
 /**
-* A module representing a shirt.
-* @alias module:Element
-*/
+ * 事件接口，用于托管全局事件。Scope 和 Document 对象实现了该接口。
+ * 根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
+ *
+ * @interface EventTarget
+ */
 define(function () {
-    return function (scope, sandbox) {
+    return function (sandbox) {
         var listeners = Object.create(null);
 
         /**
-         * Add an event listener to the hosted object (this
+         * Add an event listener to the hosted object
          *
-         * @instance
-         * @memberOf module:Element
+         * @memberOf EventTarget
          * @param {String} event The event type
          * @param {Function} cb The event listener
          * @param {Boolean} useCapture Whether or not use capture
@@ -21,10 +22,9 @@ define(function () {
         }
 
         /**
-         * Remove an event listener to the hosted object (this
+         * Remove an event listener to the hosted object
          *
-         * @instance
-         * @memberOf module:Element
+         * @memberOf EventTarget
          * @param {String} event The event type
          * @param {Function} cb The event listener
          * @param {Boolean} useCapture Whether or not use capture
@@ -69,16 +69,11 @@ define(function () {
             return item;
         }
 
-        Object.defineProperty(scope, 'addEventListener', {
-            value: addEventListener,
-            writable: false
-        });
-
-        Object.defineProperty(scope, 'removeEventListener', {
-            value: removeEventListener,
-            writable: false
-        });
-
         sandbox.on('die', removeAllEventListener);
+
+        return {
+            addEventListener: addEventListener,
+            removeEventListener: removeEventListener
+        };
     };
 });
