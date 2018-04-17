@@ -33,6 +33,11 @@ define(function (require) {
         this.fetch = fetchFactory(sandbox);
 
         /**
+         * Location 对象的封装
+         */
+        this.location = window.location;
+
+        /**
          * 滚动窗口，见 https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
          */
         this.scrollTo = function () {
