@@ -23,6 +23,18 @@ define(function (require) {
             }),
             /**
              * @type {Number}
+             * @name Element#offsetTop
+             * @readonly
+             */
+            offsetTop: objUtil.readOnlyProperty(element, 'offsetTop'),
+            /**
+             * @type {Number}
+             * @name Element#offsetLeft
+             * @readonly
+             */
+            offsetLeft: objUtil.readOnlyProperty(element, 'offsetLeft'),
+            /**
+             * @type {Number}
              * @name Element#offsetHeight
              * @readonly
              */
@@ -62,13 +74,27 @@ define(function (require) {
              * @name Element#scrollTop
              * @readonly
              */
-            scrollTop: objUtil.readOnlyProperty(element, 'scrollTop'),
+            scrollTop: {
+                get: function () {
+                    return element.scrollTop;
+                },
+                set: function (val) {
+                    return (element.scrollTop = val);
+                }
+            },
             /**
              * @type {Number}
              * @name Element#scrollLeft
              * @readonly
              */
-            scrollLeft: objUtil.readOnlyProperty(element, 'scrollLeft')
+            scrollLeft: {
+                get: function () {
+                    return element.scrollLeft;
+                },
+                set: function (val) {
+                    return (element.scrollLeft = val);
+                }
+            }
         });
     }
     return Element;

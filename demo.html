@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      overflow: hidden;
+      padding: 0;
+    }
+    canvas {
+      background: lightyellow;
+    }
+    .control-panel{
+      margin: 10px 15px;
+    }
+    #btnDie {
+      float: right;
+    }
+  </style>
+</head>
+
+<body>
+  <p class="control-panel">
+    <button id="btnRun">Run!</button>
+    <button id="btnStop">Stop!</button>
+    <button id="btnDie">Die!</button>
+  </p>
+  <canvas id="page"></canvas>
+  <script>
+require.config({
+  paths: {
+    '@searchfe/assert': 'https://unpkg.com/@searchfe/assert/index'
+  }
+})
+require(['./src/sandbox'], function(Sandbox) {
+  var sandbox = new Sandbox(page)
+  pageCtrl(sandbox.window, sandbox.document)
+
+  btnRun.addEventListener('click', function() {
+    sandbox.run()
+  })
+  btnStop.addEventListener('click', function() {
+    sandbox.stop()
+  })
+  btnDie.addEventListener('click', function() {
+    sandbox.die()
+  })
+})
+
+function pageCtrl(window, document) {
+  var canvas = document.documentElement
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight - canvas.offsetTop
+  var ctx = canvas.getContext("2d")
+  var ballRadius = 10
+  var dx = 2
+  var dy = -2
+
+  var balls = [{
+    x: 20, y: 20,
+    dx: 2, dy: 3,
+    color: 'red'
+  }, {
+    x: canvas.width * 2 / 3, y: canvas.height*2/7,
+    dx: 2.5, dy: -2.2,
+    color: 'orange'
+  }, {
+    x: canvas.width / 3, y: canvas.height*7/8,
+    dx: -0.5, dy: 1.2,
+    color: 'yellow'
+  }, {
+    x: 200, y: 200,
+    dx: -3, dy: 1,
+    color: 'black'
+  }]
+
+  window.setInterval(draw, 1000/60)
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    balls.forEach(function (ball) {
+      ctx.beginPath();
+      ctx.arc(ball.x, ball.y, ballRadius, 0, Math.PI * 2, false)
+      ctx.fillStyle = ball.color
+      ctx.fill()
+
+      if (ball.x + ball.dx > canvas.width - ballRadius || ball.x + ball.dx < ballRadius) {
+        ball.dx = -ball.dx
+      }
+      if (ball.y + ball.dy > canvas.height - ballRadius || ball.y + ball.dy < ballRadius) {
+        ball.dy = -ball.dy
+      }
+
+      ball.x += ball.dx
+      ball.y += ball.dy
+    })
+  }
+}
+  </script>
+</body>
+
+</html>

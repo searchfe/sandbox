@@ -4,6 +4,7 @@
   "description": "A lightweight sandbox implementation for the frontend",
   "main": "src/sandbox.js",
   "scripts": {
+    "start": "echo visit: http://localhost:8028/demo.html && http-server -p 8028 -c-1",
     "lint": "eslint src test *.js",
     "doc": "jsdoc2md --template README.hbs src/*.js src/apis/*.js > README.md",
     "preversion": "npm run lint && npm test",
@@ -44,16 +45,15 @@
     "karma-mocha-reporter": "^2.0.4",
     "karma-requirejs": "^1.1.0",
     "mocha": "^3.2.0",
-    "promise-polyfill": "^7.1.2",
     "requirejs": "^2.3.5",
-    "setimmediate": "^1.0.5",
     "sinon": "^2.1.0",
-    "sinon-chai": "^2.8.0",
-    "whatwg-fetch": "^2.0.4"
+    "sinon-chai": "^2.8.0"
   },
   "homepage": "https://github.com/searchfe/sandbox#readme",
   "amdDependencies": {
-    "@searchfe/assert": "^1.0.0",
-    "@searchfe/underscore": "^1.0.1"
+    "@searchfe/assert": "^1.0.0"
+  },
+  "dependencies": {
+    "http-server": "^0.11.1"
   }
 }

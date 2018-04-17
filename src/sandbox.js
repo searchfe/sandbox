@@ -24,6 +24,7 @@ define(function (require) {
      */
     function Sandbox (element) {
         assert(dom.isElement(element), 'an HTMLElement should be passed to create a sandbox');
+        element.sandbox = this;
         this.delegate = delegate(this);
         this.listeners = {
             run: [],
@@ -32,6 +33,7 @@ define(function (require) {
         };
         this.window = new Window(element, this);
         this.document = this.window.document;
+        this.state = states.IDLE;
     }
 
     Sandbox.prototype = {
@@ -57,6 +59,17 @@ define(function (require) {
             }
             this.state = states.IDLE;
             this.trigger('stop');
+        },
+
+        /**
+         * 如果在跑，就让它停；如果已停，就让它跑
+         */
+        toggle: function () {
+            if (this.state === states.IDLE) {
+                return this.run();
+            } else {
+                return this.stop();
+            }
         },
 
         /**

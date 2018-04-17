@@ -1,7 +1,7 @@
 define(function () {
     return {
-        IDLE: 0,
-        RUNNING: 1,
-        DEAD: 2
+        IDLE: 'idle',
+        RUNNING: 'running',
+        DEAD: 'dead'
     };
 });
