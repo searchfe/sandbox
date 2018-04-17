@@ -3,7 +3,7 @@ define(function (require) {
     var dom = require('./utils/dom');
     var delegate = require('./delegate');
     var states = require('./states');
-    var Scope = require('./scope');
+    var Window = require('./window');
 
     /**
      * 创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
@@ -30,7 +30,8 @@ define(function (require) {
             die: [],
             stop: []
         };
-        this.scope = new Scope(element, this);
+        this.window = new Window(element, this);
+        this.document = this.window.document;
     }
 
     Sandbox.prototype = {

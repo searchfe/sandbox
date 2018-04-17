@@ -1,11 +1,11 @@
 /**
- * 事件接口，用于托管全局事件。Scope 和 Document 对象实现了该接口。
+ * 事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
  * 根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
  *
  * @interface EventTarget
  */
 define(function () {
-    return function (sandbox) {
+    return function (sandbox, target) {
         var listeners = Object.create(null);
 
         /**
@@ -71,9 +71,9 @@ define(function () {
 
         sandbox.on('die', removeAllEventListener);
 
-        return {
-            addEventListener: addEventListener,
-            removeEventListener: removeEventListener
-        };
+        Object.defineProperties(target, {
+            addEventListener: { value: addEventListener, writable: false },
+            removeEventListener: { value: removeEventListener, writable: false }
+        });
     };
 });

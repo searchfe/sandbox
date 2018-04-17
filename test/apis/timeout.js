@@ -1,9 +1,9 @@
-define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbox, stub) {
+define(function (require) {
+    var Sandbox = require('src/sandbox');
     describe('apis/timeout', function () {
         var sandbox;
 
         beforeEach(function () {
-            Sandbox.apis = [timeout];
             sandbox = new Sandbox(document.body);
             sandbox.run();
         });
@@ -14,7 +14,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
         describe('setTimeout', function () {
             it('should call callback', function (done) {
                 var listener = sinon.spy();
-                sandbox.scope.setTimeout(listener);
+                sandbox.window.setTimeout(listener);
                 setTimeout(function () {
                     expect(listener).to.have.been.calledOnce;
                     done();
@@ -23,7 +23,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should stop calling callback once stoped', function (done) {
                 var listener = sinon.spy();
                 sandbox.stop();
-                sandbox.scope.setTimeout(listener);
+                sandbox.window.setTimeout(listener);
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
                     done();
@@ -32,7 +32,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should call once become running', function (done) {
                 var listener = sinon.spy();
                 sandbox.stop();
-                sandbox.scope.setTimeout(listener);
+                sandbox.window.setTimeout(listener);
                 setTimeout(function () {
                     sandbox.run();
                     expect(listener).to.have.been.called;
@@ -42,7 +42,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should stop calling callback once dead', function (done) {
                 var listener = sinon.spy();
                 sandbox.die();
-                sandbox.scope.setTimeout(listener);
+                sandbox.window.setTimeout(listener);
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
                     done();
@@ -52,8 +52,8 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
         describe('clearTimeout', function () {
             it('should clear callback', function (done) {
                 var listener = sinon.spy();
-                var id = sandbox.scope.setTimeout(listener);
-                sandbox.scope.clearTimeout(id);
+                var id = sandbox.window.setTimeout(listener);
+                sandbox.window.clearTimeout(id);
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
                     done();
@@ -62,8 +62,8 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should work even when stopped', function (done) {
                 var listener = sinon.spy();
                 sandbox.stop();
-                var id = sandbox.scope.setTimeout(listener);
-                sandbox.scope.clearTimeout(id);
+                var id = sandbox.window.setTimeout(listener);
+                sandbox.window.clearTimeout(id);
                 setTimeout(function () {
                     sandbox.run();
                     expect(listener).to.not.have.been.called;
@@ -72,7 +72,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             });
             it('should clear timeouts once dead', function (done) {
                 var listener = sinon.spy();
-                sandbox.scope.setTimeout(listener);
+                sandbox.window.setTimeout(listener);
                 sandbox.die();
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
@@ -83,7 +83,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
         describe('setInterval', function () {
             it('should call callback', function (done) {
                 var listener = sinon.spy();
-                sandbox.scope.setInterval(listener, 1);
+                sandbox.window.setInterval(listener, 1);
                 setTimeout(function () {
                     expect(listener.callCount).to.be.at.least(5);
                     done();
@@ -92,7 +92,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should stop calling callback once stoped', function (done) {
                 var listener = sinon.spy();
                 sandbox.stop();
-                sandbox.scope.setInterval(listener, 1);
+                sandbox.window.setInterval(listener, 1);
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
                     done();
@@ -101,7 +101,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should call once become running', function (done) {
                 var listener = sinon.spy();
                 sandbox.stop();
-                sandbox.scope.setInterval(listener, 1);
+                sandbox.window.setInterval(listener, 1);
                 sandbox.run();
                 setTimeout(function () {
                     expect(listener.callCount).to.be.at.least(5);
@@ -111,7 +111,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should stop calling callback once dead', function (done) {
                 var listener = sinon.spy();
                 sandbox.die();
-                sandbox.scope.setInterval(listener, 1);
+                sandbox.window.setInterval(listener, 1);
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
                     done();
@@ -121,8 +121,8 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
         describe('clearInteval', function () {
             it('should clear callback', function (done) {
                 var listener = sinon.spy();
-                var id = sandbox.scope.setInterval(listener, 1);
-                sandbox.scope.clearInterval(id);
+                var id = sandbox.window.setInterval(listener, 1);
+                sandbox.window.clearInterval(id);
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
                     done();
@@ -131,8 +131,8 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             it('should work even when stopped', function (done) {
                 var listener = sinon.spy();
                 sandbox.stop();
-                var id = sandbox.scope.setInterval(listener, 1);
-                sandbox.scope.clearInterval(id);
+                var id = sandbox.window.setInterval(listener, 1);
+                sandbox.window.clearInterval(id);
                 setTimeout(function () {
                     sandbox.run();
                     expect(listener).to.not.have.been.called;
@@ -141,7 +141,7 @@ define(['src/apis/timeout', 'src/sandbox', '../stub'], function (timeout, Sandbo
             });
             it('should clear timeouts once dead', function (done) {
                 var listener = sinon.spy();
-                sandbox.scope.setInterval(listener, 1);
+                sandbox.window.setInterval(listener, 1);
                 sandbox.die();
                 setTimeout(function () {
                     expect(listener).to.not.have.been.called;
