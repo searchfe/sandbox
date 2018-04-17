@@ -22,5 +22,13 @@ define(function (require) {
         it('should have scrollingElement property', function () {
             expect(sandbox.document).to.have.property('scrollingElement');
         });
+
+        it('should maintain title', function () {
+            sandbox.document.title = 'origin';
+            sandbox.stop();
+            document.title = 'changed';
+            sandbox.run();
+            expect(sandbox.document.title).to.equal('origin');
+        });
     });
 });

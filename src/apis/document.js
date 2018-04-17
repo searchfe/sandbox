@@ -25,8 +25,29 @@ define(function (require) {
              * @name Document#scrollingElement
              * @readonly
              */
-            scrollingElement: objUtil.readOnly(new Element(scrollingElement, sandbox))
+            scrollingElement: objUtil.readOnly(new Element(scrollingElement, sandbox)),
+            /**
+             * @type {String}
+             * @name Document#title
+             * @readonly
+             */
+            title: titleFactory(sandbox)
         });
+    }
+
+    function titleFactory (sandbox) {
+        var title = document.title;
+        sandbox.on('run', function () {
+            document.title = title;
+        });
+        return {
+            get: function () {
+                return title;
+            },
+            set: function (val) {
+                document.title = title = val;
+            }
+        };
     }
     return Document;
 });
