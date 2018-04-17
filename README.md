@@ -9,6 +9,11 @@
 apmjs install @searchfe/sandbox
 ```
 
+其中 Fetch API 可能需要适当的 Polyfill：
+
+* https://www.npmjs.com/package/whatwg-fetch
+* https://github.com/taylorhakes/promise-polyfill
+
 ## Classes
 
 <dl>
@@ -84,6 +89,7 @@ Remove an event listener to the hosted object
     * [new Sandbox(element)](#new_Sandbox_new)
     * [.run()](#Sandbox+run)
     * [.stop()](#Sandbox+stop)
+    * [.toggle()](#Sandbox+toggle)
     * [.die()](#Sandbox+die)
     * [.on(type, cb)](#Sandbox+on)
     * [.off(type, cb)](#Sandbox+off)
@@ -120,6 +126,12 @@ require(['@searchfe/sandbox'], function(Sandbox){
 
 ### sandbox.stop()
 停止沙盒，冻结定时器和网络回调、忽略事件。
+
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
+<a name="Sandbox+toggle"></a>
+
+### sandbox.toggle()
+如果在跑，就让它停；如果已停，就让它跑
 
 **Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
 <a name="Sandbox+die"></a>
@@ -171,6 +183,8 @@ Remove a listener to the sandbox, available event types: run, stop, die
 * [Window](#Window)
     * [new Window(element, sandbox)](#new_Window_new)
     * [.document](#Window+document) : [<code>Document</code>](#Document)
+    * [.fetch](#Window+fetch)
+    * [.location](#Window+location)
     * [.pageXOffset](#Window+pageXOffset) : <code>Number</code>
     * [.pageYOffset](#Window+pageYOffset) : <code>Number</code>
     * [.innerHeight](#Window+innerHeight) : <code>Number</code>
@@ -198,6 +212,19 @@ Remove a listener to the sandbox, available event types: run, stop, die
 
 ### window.document : [<code>Document</code>](#Document)
 沙盒的文档对象
+
+**Kind**: instance property of [<code>Window</code>](#Window)  
+<a name="Window+fetch"></a>
+
+### window.fetch
+Fetch API 的封装，见 https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+具体实现取决于当前浏览器版本，以及当前环境的 Fetch Polyfill
+
+**Kind**: instance property of [<code>Window</code>](#Window)  
+<a name="Window+location"></a>
+
+### window.location
+Location 对象的封装
 
 **Kind**: instance property of [<code>Window</code>](#Window)  
 <a name="Window+pageXOffset"></a>
@@ -297,6 +324,7 @@ specified piece of code once after the timer expires.
     * [new Document(element, sandbox)](#new_Document_new)
     * [.documentElement](#Document+documentElement) : <code>HTMLElement</code>
     * [.scrollingElement](#Document+scrollingElement) : [<code>Element</code>](#Element)
+    * [.title](#Document+title) : <code>String</code>
 
 <a name="new_Document_new"></a>
 
@@ -319,6 +347,11 @@ specified piece of code once after the timer expires.
 ### document.scrollingElement : [<code>Element</code>](#Element)
 **Kind**: instance property of [<code>Document</code>](#Document)  
 **Read only**: true  
+<a name="Document+title"></a>
+
+### document.title : <code>String</code>
+**Kind**: instance property of [<code>Document</code>](#Document)  
+**Read only**: true  
 <a name="Element"></a>
 
 ## Element
@@ -330,6 +363,8 @@ specified piece of code once after the timer expires.
 * [Element](#Element)
     * [new Element(element)](#new_Element_new)
     * [.scrollTo](#Element+scrollTo) : [<code>Document</code>](#Document)
+    * [.offsetTop](#Element+offsetTop) : <code>Number</code>
+    * [.offsetLeft](#Element+offsetLeft) : <code>Number</code>
     * [.offsetHeight](#Element+offsetHeight) : <code>Number</code>
     * [.offsetWidth](#Element+offsetWidth) : <code>Number</code>
     * [.scrollHeight](#Element+scrollHeight) : <code>Number</code>
@@ -353,6 +388,16 @@ specified piece of code once after the timer expires.
 
 ### element.scrollTo : [<code>Document</code>](#Document)
 **Kind**: instance property of [<code>Element</code>](#Element)  
+<a name="Element+offsetTop"></a>
+
+### element.offsetTop : <code>Number</code>
+**Kind**: instance property of [<code>Element</code>](#Element)  
+**Read only**: true  
+<a name="Element+offsetLeft"></a>
+
+### element.offsetLeft : <code>Number</code>
+**Kind**: instance property of [<code>Element</code>](#Element)  
+**Read only**: true  
 <a name="Element+offsetHeight"></a>
 
 ### element.offsetHeight : <code>Number</code>
