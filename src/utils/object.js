@@ -12,17 +12,6 @@ define(function (require) {
                     return obj[property];
                 }
             };
-        },
-        readOnlyProperties: function (obj, properties) {
-            var conf = {};
-            properties.forEach(function (property) {
-                conf[property] = {
-                    get: function () {
-                        return obj[property];
-                    }
-                };
-            });
-            return conf;
         }
     };
 });
