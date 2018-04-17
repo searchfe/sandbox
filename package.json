@@ -4,7 +4,7 @@
   "description": "A lightweight sandbox implementation for the frontend",
   "main": "src/sandbox.js",
   "scripts": {
-    "start": "echo visit: http://localhost:8028/demo.html && http-server -p 8028 -c-1",
+    "start": "echo visit: http://localhost:8028/docs/demo.html && http-server -p 8028 -c-1",
     "lint": "eslint src test *.js",
     "doc": "jsdoc2md --template README.hbs src/*.js src/apis/*.js > README.md",
     "preversion": "npm run lint && npm test",

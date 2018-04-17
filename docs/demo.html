@@ -34,10 +34,11 @@
   <script>
 require.config({
   paths: {
-    '@searchfe/assert': 'https://unpkg.com/@searchfe/assert/index'
+    '@searchfe/assert': 'https://unpkg.com/@searchfe/assert/index',
+    '@searchfe/sandbox': 'https://unpkg.com/@searchfe/sandbox'
   }
 })
-require(['./src/sandbox'], function(Sandbox) {
+require(['@searchfe/sandbox/src/sandbox'], function(Sandbox) {
   var sandbox = new Sandbox(page)
   pageCtrl(sandbox.window, sandbox.document)
 
