@@ -1,5 +1,12 @@
-define(['src/sandbox'], function (Sandbox) {
+define(function (require) {
+    var Sandbox = require('src/sandbox');
+    var states = require('src/states');
+
     describe('Sandbox', function () {
+        beforeEach(function () {
+            delete document.documentElement.sandbox;
+            delete document.body.sandbox;
+        });
         describe('new', function () {
             it('should throw when root element not passed', function () {
                 expect(function () {
@@ -34,6 +41,13 @@ define(['src/sandbox'], function (Sandbox) {
                 expect(onStop).to.have.been.calledOnce;
                 expect(onDie).to.not.have.been.called;
             });
+            it('should toggle states', function () {
+                expect(sandbox.state).to.equal(states.IDLE);
+                sandbox.toggle();
+                expect(sandbox.state).to.equal(states.RUNNING);
+                sandbox.toggle();
+                expect(sandbox.state).to.equal(states.IDLE);
+            });
             it('should trigger die event', function () {
                 sandbox.run();
                 sandbox.die();
@@ -66,6 +80,50 @@ define(['src/sandbox'], function (Sandbox) {
                 sandbox.run();
                 expect(onRun).to.not.have.been.called;
                 expect(spy).to.have.been.calledOnce;
+            });
+        });
+        describe('#spawn()', function () {
+            it('should throw if not contained', function () {
+                var sandbox = new Sandbox(document.body);
+                expect(function () {
+                    sandbox.spawn(document.documentElement);
+                }).to.throw(/cannot spawn for ancestor node/);
+            });
+            it('should throw if not specified', function () {
+                var sandbox = new Sandbox(document.body);
+                expect(function () {
+                    sandbox.spawn();
+                }).to.throw(/child not found or not instanceof HTMLElement/);
+            });
+            it('should throw if already DEAD', function () {
+                var sandbox = new Sandbox(document.body);
+                sandbox.die();
+                expect(function () {
+                    sandbox.spawn();
+                }).to.throw(/leave me alone/);
+            });
+            it('should spawn with child HTMLElement', function () {
+                expect(document.body.sandbox).to.equal(undefined);
+                var sandbox = new Sandbox(document.documentElement);
+                var child = sandbox.spawn(document.body);
+                expect(document.body.sandbox).to.equal(child);
+            });
+            it('should spawn with child selector', function () {
+                expect(document.body.sandbox).to.equal(undefined);
+                var sandbox = new Sandbox(document.documentElement);
+                var child = sandbox.spawn('body');
+                expect(document.body.sandbox).to.equal(child);
+            });
+            it('should keep idle if current not running', function () {
+                var sandbox = new Sandbox(document.documentElement);
+                var child = sandbox.spawn('body');
+                expect(child.state).to.equal(states.IDLE);
+            });
+            it('should run immediately if current running', function () {
+                var sandbox = new Sandbox(document.documentElement);
+                sandbox.run();
+                var child = sandbox.spawn('body');
+                expect(child.state).to.equal(states.RUNNING);
             });
         });
     });

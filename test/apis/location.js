@@ -4,6 +4,7 @@ define(function (require) {
         var sandbox;
 
         beforeEach(function () {
+            delete document.documentElement.sandbox;
             sandbox = new Sandbox(document.documentElement);
             sandbox.run();
         });

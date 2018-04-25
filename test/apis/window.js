@@ -4,6 +4,10 @@ define(function (require) {
     describe('apis/window', function () {
         var sandbox;
         var div;
+        beforeEach(function () {
+            delete document.documentElement.sandbox;
+            delete document.body.sandbox;
+        });
 
         before(function () {
             div = document.createElement('div');

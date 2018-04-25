@@ -3,6 +3,7 @@ define(function (require) {
     describe('apis/document', function () {
         var sandbox;
         beforeEach(function () {
+            delete document.documentElement.sandbox;
             sandbox = new Sandbox(document.documentElement);
             sandbox.run();
         });

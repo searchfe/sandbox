@@ -3,6 +3,7 @@ define(['src/apis/events', 'src/sandbox', '../stub'], function (events, Sandbox,
         var sandbox;
 
         beforeEach(function () {
+            delete document.body.sandbox;
             sandbox = new Sandbox(document.body);
             sandbox.run();
         });

@@ -2,6 +2,10 @@ define(function (require) {
     var Sandbox = require('src/sandbox');
     describe('apis/fetch', function () {
         var sandbox;
+        beforeEach(function () {
+            delete document.documentElement.sandbox;
+            delete document.body.sandbox;
+        });
 
         beforeEach(function () {
             sandbox = new Sandbox(document.documentElement);

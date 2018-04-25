@@ -2,6 +2,7 @@ define(function (require) {
     var assert = require('@searchfe/assert');
     var dom = require('./utils/dom');
     var delegate = require('./delegate');
+    var obj = require('./utils/object');
     var states = require('./states');
     var Window = require('./window');
 
@@ -24,6 +25,7 @@ define(function (require) {
      */
     function Sandbox (element) {
         assert(dom.isElement(element), 'an HTMLElement should be passed to create a sandbox');
+        assert(!element.sandbox, 'a sandbox has already craeted for the element');
         element.sandbox = this;
         this.delegate = delegate(this);
         this.listeners = {
@@ -34,6 +36,7 @@ define(function (require) {
         this.window = new Window(element, this);
         this.document = this.window.document;
         this.state = states.IDLE;
+        element.sandbox = this;
     }
 
     Sandbox.prototype = {
@@ -120,6 +123,33 @@ define(function (require) {
                     list.splice(i--, 1);
                 }
             }
+        },
+
+        /**
+         * 生成一个子沙盒对象，子沙盒会跟随父沙盒的生命周期。子沙盒会继承当前沙盒的状态，即：
+         * 如果当前沙盒处于 RUNNING 状态，子沙盒会立即执行。
+         *
+         * @param {HTMLElement|string} child 子 HTMLElement 或子元素选择符
+         * @throws {Error} 沙盒已死
+         * @throws {Error} 指定的节点是当前沙盒的祖先
+         * @return {Sandbox} 子沙盒对象
+         */
+        spawn: function (child) {
+            assert(this.state !== states.DEAD, 'I\'m dead, leave me alone');
+            var childElement = obj.isString(child)
+                ? this.document.documentElement.querySelector(child)
+                : child;
+            assert(dom.isElement(childElement), 'child not found or not instanceof HTMLElement');
+            assert(
+                !dom.contains(child, this.document.documentElement),
+                'cannot spawn for ancestor node'
+            );
+
+            var sandbox = new Sandbox(childElement);
+            if (this.state === states.RUNNING) {
+                sandbox.run();
+            }
+            return sandbox;
         }
     };
 

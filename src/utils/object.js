@@ -12,6 +12,9 @@ define(function (require) {
                     return obj[property];
                 }
             };
+        },
+        isString: function (value) {
+            return value instanceof String || typeof value === 'string';
         }
     };
 });

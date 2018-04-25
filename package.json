@@ -11,6 +11,7 @@
     "version": "npm run doc",
     "postversion": "git push && git push --tags",
     "ci": "karma start --reporters mocha,coverage,coveralls",
+    "coverage": "karma start --reporters mocha,coverage",
     "test": "karma start"
   },
   "repository": {

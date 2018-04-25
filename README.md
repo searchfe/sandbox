@@ -93,6 +93,7 @@ Remove an event listener to the hosted object
     * [.die()](#Sandbox+die)
     * [.on(type, cb)](#Sandbox+on)
     * [.off(type, cb)](#Sandbox+off)
+    * [.spawn(child)](#Sandbox+spawn) ⇒ [<code>Sandbox</code>](#Sandbox)
 
 <a name="new_Sandbox_new"></a>
 
@@ -171,6 +172,24 @@ Remove a listener to the sandbox, available event types: run, stop, die
 | --- | --- | --- |
 | type | <code>function</code> | the event type |
 | cb | <code>function</code> | the callback |
+
+<a name="Sandbox+spawn"></a>
+
+### sandbox.spawn(child) ⇒ [<code>Sandbox</code>](#Sandbox)
+生成一个子沙盒对象，子沙盒会跟随父沙盒的生命周期。子沙盒会继承当前沙盒的状态，即：
+如果当前沙盒处于 RUNNING 状态，子沙盒会立即执行。
+
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
+**Returns**: [<code>Sandbox</code>](#Sandbox) - 子沙盒对象  
+**Throws**:
+
+- <code>Error</code> 沙盒已死
+- <code>Error</code> 指定的节点是当前沙盒的祖先
+
+
+| Param | Type | Description |
+| --- | --- | --- |
+| child | <code>HTMLElement</code> \| <code>string</code> | 子 HTMLElement 或子元素选择符 |
 
 <a name="Window"></a>
 
