@@ -1,3 +1,9 @@
+/**
+ * 事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
+ * 根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
+ *
+ * @interface ITimeout
+ */
 define(function () {
     return function (sandbox, target) {
         var timeouts = Object.create(null);
@@ -9,8 +15,7 @@ define(function () {
          * It returns an interval ID which uniquely identifies the interval,
          * so you can remove it later by calling clearInterval()
          *
-         * @instance
-         * @memberOf Window
+         * @memberOf ITimeout
          * @param {Function} fn The scheduled callback
          * @param {Number} timeout Time inteval in millisecond
          */
@@ -24,8 +29,7 @@ define(function () {
         /**
          * 移除定时器
          *
-         * @instance
-         * @memberOf Window
+         * @memberOf ITimeout
          * @param {Number} id 定时器 ID，即 setInteval 的返回值
          */
         function clearInterval (id) {
@@ -37,8 +41,7 @@ define(function () {
          * The setTimeout() method sets a timer which executes a function or
          * specified piece of code once after the timer expires.
          *
-         * @instance
-         * @memberOf Window
+         * @memberOf ITimeout
          * @param {Function} fn The scheduled callback
          * @param {Number} timeout Time in millisecond
          */
@@ -52,8 +55,7 @@ define(function () {
         /**
          * 移除定时器
          *
-         * @instance
-         * @memberOf Window
+         * @memberOf ITimeout
          * @param {Number} id 定时器 ID，即 setTimeout 的返回值
          */
         function clearTimeout (id) {

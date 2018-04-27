@@ -9,6 +9,11 @@ define(function (require) {
                 typeof o.nodeName === 'string'
             );
         },
+        match: function (element, selector) {
+            if (element.parentNode && element.parentNode.querySelector(selector) === element) {
+                return element;
+            }
+        },
         contains: function (lhs, rhs) {
             if (lhs.contains) {
                 return lhs.contains(rhs);

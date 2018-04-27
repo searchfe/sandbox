@@ -6,7 +6,7 @@
   "scripts": {
     "start": "echo visit: http://localhost:8028/docs/demo.html && http-server -p 8028 -c-1",
     "lint": "eslint src test *.js",
-    "doc": "jsdoc2md --template README.hbs src/*.js src/apis/*.js > README.md",
+    "doc": "jsdoc2md --template README.hbs src/*.js src/apis/*.js src/mixins/*.js > README.md",
     "preversion": "npm run lint && npm test",
     "version": "npm run doc",
     "postversion": "git push && git push --tags",

@@ -1,5 +1,5 @@
-define(['src/apis/events', 'src/sandbox', '../stub'], function (events, Sandbox, stub) {
-    describe('apis/events', function () {
+define(['src/mixins/events', 'src/sandbox', '../stub'], function (events, Sandbox, stub) {
+    describe('mixins/events', function () {
         var sandbox;
 
         beforeEach(function () {

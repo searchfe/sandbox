@@ -1,5 +1,7 @@
 define(function (require) {
     var objUtil = require('../utils/object');
+    var dom = require('../utils/dom');
+    var titleMixin = require('./title');
     var Element = require('./element');
 
     /**
@@ -13,41 +15,62 @@ define(function (require) {
     function Document (element, sandbox) {
         var scrollingElement = document.scrollingElement || document.body;
 
+        /**
+         * 封装 querySelector
+         *
+         * @type {Function}
+         * @name Document#querySelector
+         * @readonly
+         */
+        function querySelector (selector) {
+            if (dom.match(element, selector)) {
+                return element;
+            }
+            return element.querySelector(selector);
+        }
+
+        /**
+         * 封装 querySelectorAll，限制：返回值类型为 Array 而非 NodeList，这意味着返回列表不是 Live 的。
+         *
+         * @type {Function}
+         * @name Document#querySelectorAll
+         * @readonly
+         */
+        function querySelectorAll (selector) {
+            var list = Array.prototype.slice.call(element.querySelectorAll(selector));
+            if (dom.match(element, selector)) {
+                list.unshift(element);
+            }
+            return list;
+        }
+
+        /**
+         * 与当前文档绑定的沙盒对象
+         *
+         * @type {Sandbox}
+         */
+        this.sandbox = sandbox;
+
+        titleMixin(sandbox, this);
+
         Object.defineProperties(this, {
             /**
              * @type {HTMLElement}
              * @name Document#documentElement
              * @readonly
              */
-            documentElement: objUtil.readOnly(element),
+            documentElement: objUtil.readOnlyValue(element),
+
             /**
              * @type {Element}
              * @name Document#scrollingElement
              * @readonly
              */
-            scrollingElement: objUtil.readOnly(new Element(scrollingElement, sandbox)),
-            /**
-             * @type {String}
-             * @name Document#title
-             * @readonly
-             */
-            title: titleFactory(sandbox)
+            scrollingElement: objUtil.readOnlyValue(new Element(scrollingElement, sandbox)),
+            querySelector: objUtil.readOnlyValue(querySelector),
+            querySelectorAll: objUtil.readOnlyValue(querySelectorAll)
         });
     }
 
-    function titleFactory (sandbox) {
-        var title = document.title;
-        sandbox.on('run', function () {
-            document.title = title;
-        });
-        return {
-            get: function () {
-                return title;
-            },
-            set: function (val) {
-                document.title = title = val;
-            }
-        };
-    }
     return Document;
 });

@@ -1,9 +1,19 @@
 define(function (require) {
     return {
-        readOnly: function (val) {
+        readOnlyValue: function (val) {
             return {
                 value: val,
                 writable: false
+            };
+        },
+        readOnlyMethod: function (obj, method) {
+            function proxy () {
+                return obj[method].apply(obj, arguments);
+            }
+            return {
+                get: function () {
+                    return proxy;
+                }
             };
         },
         readOnlyProperty: function (obj, property) {

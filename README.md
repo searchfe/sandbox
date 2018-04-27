@@ -31,33 +31,49 @@ apmjs install @searchfe/sandbox
 </dd>
 </dl>
 
+## Members
+
+<dl>
+<dt><a href="#scrollTo">scrollTo</a></dt>
+<dd><p>滚动窗口，见 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo">https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo</a></p>
+</dd>
+</dl>
+
 ## Interfaces
 
 <dl>
-<dt><a href="#EventTarget">EventTarget</a></dt>
+<dt><a href="#IEventTarget">IEventTarget</a></dt>
+<dd><p>事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
+根元素以下的事件监听不予监听，见：<a href="https://github.com/searchfe/sandbox/issues/2">https://github.com/searchfe/sandbox/issues/2</a></p>
+</dd>
+<dt><a href="#IFetchAPI">IFetchAPI</a></dt>
+<dd><p>Fetch API 的封装，见 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API</a>
+具体实现取决于当前浏览器版本，以及当前环境的 Fetch Polyfill</p>
+</dd>
+<dt><a href="#ITimeout">ITimeout</a></dt>
 <dd><p>事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
 根元素以下的事件监听不予监听，见：<a href="https://github.com/searchfe/sandbox/issues/2">https://github.com/searchfe/sandbox/issues/2</a></p>
 </dd>
 </dl>
 
-<a name="EventTarget"></a>
+<a name="IEventTarget"></a>
 
-## EventTarget
+## IEventTarget
 事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
 根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
 
 **Kind**: global interface  
 
-* [EventTarget](#EventTarget)
-    * [.addEventListener(event, cb, useCapture)](#EventTarget.addEventListener)
-    * [.removeEventListener(event, cb, useCapture)](#EventTarget.removeEventListener)
+* [IEventTarget](#IEventTarget)
+    * [.addEventListener(event, cb, useCapture)](#IEventTarget.addEventListener)
+    * [.removeEventListener(event, cb, useCapture)](#IEventTarget.removeEventListener)
 
-<a name="EventTarget.addEventListener"></a>
+<a name="IEventTarget.addEventListener"></a>
 
-### EventTarget.addEventListener(event, cb, useCapture)
+### IEventTarget.addEventListener(event, cb, useCapture)
 Add an event listener to the hosted object
 
-**Kind**: static method of [<code>EventTarget</code>](#EventTarget)  
+**Kind**: static method of [<code>IEventTarget</code>](#IEventTarget)  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -65,18 +81,102 @@ Add an event listener to the hosted object
 | cb | <code>function</code> | The event listener |
 | useCapture | <code>Boolean</code> | Whether or not use capture |
 
-<a name="EventTarget.removeEventListener"></a>
+<a name="IEventTarget.removeEventListener"></a>
 
-### EventTarget.removeEventListener(event, cb, useCapture)
+### IEventTarget.removeEventListener(event, cb, useCapture)
 Remove an event listener to the hosted object
 
-**Kind**: static method of [<code>EventTarget</code>](#EventTarget)  
+**Kind**: static method of [<code>IEventTarget</code>](#IEventTarget)  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | event | <code>String</code> | The event type |
 | cb | <code>function</code> | The event listener |
 | useCapture | <code>Boolean</code> | Whether or not use capture |
+
+<a name="IFetchAPI"></a>
+
+## IFetchAPI
+Fetch API 的封装，见 https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+具体实现取决于当前浏览器版本，以及当前环境的 Fetch Polyfill
+
+**Kind**: global interface  
+<a name="IFetchAPI.fetch"></a>
+
+### IFetchAPI.fetch(input, init)
+发起一个被沙盒托管的网络请求，API 请参考：
+https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
+
+**Kind**: static method of [<code>IFetchAPI</code>](#IFetchAPI)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| input | <code>String</code> | 目标 url |
+| init | <code>function</code> | 请求参数 |
+
+<a name="ITimeout"></a>
+
+## ITimeout
+事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
+根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
+
+**Kind**: global interface  
+
+* [ITimeout](#ITimeout)
+    * [.setInterval(fn, timeout)](#ITimeout.setInterval)
+    * [.clearInterval(id)](#ITimeout.clearInterval)
+    * [.setTimeout(fn, timeout)](#ITimeout.setTimeout)
+    * [.clearTimeout(id)](#ITimeout.clearTimeout)
+
+<a name="ITimeout.setInterval"></a>
+
+### ITimeout.setInterval(fn, timeout)
+The setInterval() method repeatedly calls a function or executes a code snippet,
+with a fixed time delay between each call.
+It returns an interval ID which uniquely identifies the interval,
+so you can remove it later by calling clearInterval()
+
+**Kind**: static method of [<code>ITimeout</code>](#ITimeout)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | The scheduled callback |
+| timeout | <code>Number</code> | Time inteval in millisecond |
+
+<a name="ITimeout.clearInterval"></a>
+
+### ITimeout.clearInterval(id)
+移除定时器
+
+**Kind**: static method of [<code>ITimeout</code>](#ITimeout)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>Number</code> | 定时器 ID，即 setInteval 的返回值 |
+
+<a name="ITimeout.setTimeout"></a>
+
+### ITimeout.setTimeout(fn, timeout)
+The setTimeout() method sets a timer which executes a function or
+specified piece of code once after the timer expires.
+
+**Kind**: static method of [<code>ITimeout</code>](#ITimeout)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | The scheduled callback |
+| timeout | <code>Number</code> | Time in millisecond |
+
+<a name="ITimeout.clearTimeout"></a>
+
+### ITimeout.clearTimeout(id)
+移除定时器
+
+**Kind**: static method of [<code>ITimeout</code>](#ITimeout)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| id | <code>Number</code> | 定时器 ID，即 setTimeout 的返回值 |
 
 <a name="Sandbox"></a>
 
@@ -197,12 +297,11 @@ Remove a listener to the sandbox, available event types: run, stop, die
 沙盒上下文 提供给沙盒内的业务逻辑使用，相当于浏览器的 window。
 
 **Kind**: global class  
-**Implements**: [<code>EventTarget</code>](#EventTarget)  
+**Implements**: [<code>IEventTarget</code>](#IEventTarget), [<code>ITimeout</code>](#ITimeout), [<code>IFetchAPI</code>](#IFetchAPI)  
 
 * [Window](#Window)
     * [new Window(element, sandbox)](#new_Window_new)
     * [.document](#Window+document) : [<code>Document</code>](#Document)
-    * [.fetch](#Window+fetch)
     * [.location](#Window+location)
     * [.pageXOffset](#Window+pageXOffset) : <code>Number</code>
     * [.pageYOffset](#Window+pageYOffset) : <code>Number</code>
@@ -210,11 +309,6 @@ Remove a listener to the sandbox, available event types: run, stop, die
     * [.outerHeight](#Window+outerHeight) : <code>Number</code>
     * [.innerWidth](#Window+innerWidth) : <code>Number</code>
     * [.outerWidth](#Window+outerWidth) : <code>Number</code>
-    * [.scrollTo()](#Window+scrollTo)
-    * [.setInterval(fn, timeout)](#Window+setInterval)
-    * [.clearInterval(id)](#Window+clearInterval)
-    * [.setTimeout(fn, timeout)](#Window+setTimeout)
-    * [.clearTimeout(id)](#Window+clearTimeout)
 
 <a name="new_Window_new"></a>
 
@@ -231,13 +325,6 @@ Remove a listener to the sandbox, available event types: run, stop, die
 
 ### window.document : [<code>Document</code>](#Document)
 沙盒的文档对象
-
-**Kind**: instance property of [<code>Window</code>](#Window)  
-<a name="Window+fetch"></a>
-
-### window.fetch
-Fetch API 的封装，见 https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-具体实现取决于当前浏览器版本，以及当前环境的 Fetch Polyfill
 
 **Kind**: instance property of [<code>Window</code>](#Window)  
 <a name="Window+location"></a>
@@ -276,62 +363,6 @@ Location 对象的封装
 ### window.outerWidth : <code>Number</code>
 **Kind**: instance property of [<code>Window</code>](#Window)  
 **Read only**: true  
-<a name="Window+scrollTo"></a>
-
-### window.scrollTo()
-滚动窗口，见 https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
-
-**Kind**: instance method of [<code>Window</code>](#Window)  
-<a name="Window+setInterval"></a>
-
-### window.setInterval(fn, timeout)
-The setInterval() method repeatedly calls a function or executes a code snippet,
-with a fixed time delay between each call.
-It returns an interval ID which uniquely identifies the interval,
-so you can remove it later by calling clearInterval()
-
-**Kind**: instance method of [<code>Window</code>](#Window)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | The scheduled callback |
-| timeout | <code>Number</code> | Time inteval in millisecond |
-
-<a name="Window+clearInterval"></a>
-
-### window.clearInterval(id)
-移除定时器
-
-**Kind**: instance method of [<code>Window</code>](#Window)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>Number</code> | 定时器 ID，即 setInteval 的返回值 |
-
-<a name="Window+setTimeout"></a>
-
-### window.setTimeout(fn, timeout)
-The setTimeout() method sets a timer which executes a function or
-specified piece of code once after the timer expires.
-
-**Kind**: instance method of [<code>Window</code>](#Window)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| fn | <code>function</code> | The scheduled callback |
-| timeout | <code>Number</code> | Time in millisecond |
-
-<a name="Window+clearTimeout"></a>
-
-### window.clearTimeout(id)
-移除定时器
-
-**Kind**: instance method of [<code>Window</code>](#Window)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| id | <code>Number</code> | 定时器 ID，即 setTimeout 的返回值 |
-
 <a name="Document"></a>
 
 ## Document
@@ -341,6 +372,9 @@ specified piece of code once after the timer expires.
 
 * [Document](#Document)
     * [new Document(element, sandbox)](#new_Document_new)
+    * [.querySelector](#Document+querySelector) : <code>function</code>
+    * [.querySelectorAll](#Document+querySelectorAll) : <code>function</code>
+    * [.sandbox](#Document+sandbox) : [<code>Sandbox</code>](#Sandbox)
     * [.documentElement](#Document+documentElement) : <code>HTMLElement</code>
     * [.scrollingElement](#Document+scrollingElement) : [<code>Element</code>](#Element)
     * [.title](#Document+title) : <code>String</code>
@@ -356,6 +390,26 @@ specified piece of code once after the timer expires.
 | element | [<code>Element</code>](#Element) | 沙盒上下文 |
 | sandbox | [<code>Sandbox</code>](#Sandbox) | 对应的沙盒对象 |
 
+<a name="Document+querySelector"></a>
+
+### document.querySelector : <code>function</code>
+封装 querySelector
+
+**Kind**: instance property of [<code>Document</code>](#Document)  
+**Read only**: true  
+<a name="Document+querySelectorAll"></a>
+
+### document.querySelectorAll : <code>function</code>
+封装 querySelectorAll，限制：返回值类型为 Array 而非 NodeList，这意味着返回列表不是 Live 的。
+
+**Kind**: instance property of [<code>Document</code>](#Document)  
+**Read only**: true  
+<a name="Document+sandbox"></a>
+
+### document.sandbox : [<code>Sandbox</code>](#Sandbox)
+与当前文档绑定的沙盒对象
+
+**Kind**: instance property of [<code>Document</code>](#Document)  
 <a name="Document+documentElement"></a>
 
 ### document.documentElement : <code>HTMLElement</code>
@@ -369,15 +423,20 @@ specified piece of code once after the timer expires.
 <a name="Document+title"></a>
 
 ### document.title : <code>String</code>
+沙盒文档标题
+
 **Kind**: instance property of [<code>Document</code>](#Document)  
-**Read only**: true  
+**Todo**
+
+- [ ] Implement 做一个栈，保证退场后上一个页面（不论是否在沙盒中）的 title 也能恢复
+
 <a name="Element"></a>
 
 ## Element
 元素对象 这是 HTMLElement 的一个沙盒代理对象，封装并托管了 DOM 操作。
 
 **Kind**: global class  
-**Implements**: [<code>EventTarget</code>](#EventTarget)  
+**Implements**: [<code>IEventTarget</code>](#IEventTarget)  
 
 * [Element](#Element)
     * [new Element(element)](#new_Element_new)
@@ -451,11 +510,15 @@ specified piece of code once after the timer expires.
 
 ### element.scrollTop : <code>Number</code>
 **Kind**: instance property of [<code>Element</code>](#Element)  
-**Read only**: true  
 <a name="Element+scrollLeft"></a>
 
 ### element.scrollLeft : <code>Number</code>
 **Kind**: instance property of [<code>Element</code>](#Element)  
-**Read only**: true  
+<a name="scrollTo"></a>
+
+## scrollTo
+滚动窗口，见 https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo
+
+**Kind**: global variable  
 
 [apmjs]: https://github.com/apmjs/apmjs
