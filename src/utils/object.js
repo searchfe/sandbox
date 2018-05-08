@@ -1,5 +1,13 @@
 define(function (require) {
     return {
+        assign: function (target, source) {
+            if (source) {
+                Object.keys(source).forEach(function (key) {
+                    target[key] = source[key];
+                });
+            }
+            return target;
+        },
         readOnlyValue: function (val) {
             return {
                 value: val,

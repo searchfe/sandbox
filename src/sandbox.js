@@ -129,11 +129,12 @@ define(function (require) {
          * 如果当前沙盒处于 RUNNING 状态，子沙盒会立即执行。
          *
          * @param {HTMLElement|string} child 子 HTMLElement 或子元素选择符
+         * @param {Object} [context] 子 HTMLElement 或子元素选择符
          * @throws {Error} 沙盒已死
          * @throws {Error} 指定的节点是当前沙盒的祖先
          * @return {Sandbox} 子沙盒对象
          */
-        spawn: function (child) {
+        spawn: function (child, context) {
             assert(this.state !== states.DEAD, 'I\'m dead, leave me alone');
             var childElement = obj.isString(child)
                 ? this.document.documentElement.querySelector(child)
@@ -145,6 +146,8 @@ define(function (require) {
             );
 
             var sandbox = new Sandbox(childElement);
+            obj.assign(sandbox.window, context);
+
             if (this.state === states.RUNNING) {
                 sandbox.run();
             }

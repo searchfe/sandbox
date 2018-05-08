@@ -193,7 +193,7 @@ specified piece of code once after the timer expires.
     * [.die()](#Sandbox+die)
     * [.on(type, cb)](#Sandbox+on)
     * [.off(type, cb)](#Sandbox+off)
-    * [.spawn(child)](#Sandbox+spawn) ⇒ [<code>Sandbox</code>](#Sandbox)
+    * [.spawn(child, [context])](#Sandbox+spawn) ⇒ [<code>Sandbox</code>](#Sandbox)
 
 <a name="new_Sandbox_new"></a>
 
@@ -275,7 +275,7 @@ Remove a listener to the sandbox, available event types: run, stop, die
 
 <a name="Sandbox+spawn"></a>
 
-### sandbox.spawn(child) ⇒ [<code>Sandbox</code>](#Sandbox)
+### sandbox.spawn(child, [context]) ⇒ [<code>Sandbox</code>](#Sandbox)
 生成一个子沙盒对象，子沙盒会跟随父沙盒的生命周期。子沙盒会继承当前沙盒的状态，即：
 如果当前沙盒处于 RUNNING 状态，子沙盒会立即执行。
 
@@ -290,6 +290,7 @@ Remove a listener to the sandbox, available event types: run, stop, die
 | Param | Type | Description |
 | --- | --- | --- |
 | child | <code>HTMLElement</code> \| <code>string</code> | 子 HTMLElement 或子元素选择符 |
+| [context] | <code>Object</code> | 子 HTMLElement 或子元素选择符 |
 
 <a name="Window"></a>
 

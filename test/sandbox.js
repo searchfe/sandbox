@@ -125,6 +125,12 @@ define(function (require) {
                 var child = sandbox.spawn('body');
                 expect(child.state).to.equal(states.RUNNING);
             });
+            it('should init with context', function () {
+                var sandbox = new Sandbox(document.documentElement);
+                sandbox.run();
+                var child = sandbox.spawn('body', {foo: 'FOO'});
+                expect(child.window.foo).to.equal('FOO');
+            });
         });
     });
 });
