@@ -36,7 +36,6 @@ define(function (require) {
         this.window = new Window(element, this);
         this.document = this.window.document;
         this.state = states.IDLE;
-        element.sandbox = this;
     }
 
     Sandbox.prototype = {
