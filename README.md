@@ -378,6 +378,8 @@ Location 对象的封装
     * [.sandbox](#Document+sandbox) : [<code>Sandbox</code>](#Sandbox)
     * [.documentElement](#Document+documentElement) : <code>HTMLElement</code>
     * [.scrollingElement](#Document+scrollingElement) : [<code>Element</code>](#Element)
+    * [.cookie](#Document+cookie) : [<code>Element</code>](#Element)
+    * [.createElement](#Document+createElement) : [<code>Element</code>](#Element)
     * [.title](#Document+title) : <code>String</code>
 
 <a name="new_Document_new"></a>
@@ -419,6 +421,16 @@ Location 对象的封装
 <a name="Document+scrollingElement"></a>
 
 ### document.scrollingElement : [<code>Element</code>](#Element)
+**Kind**: instance property of [<code>Document</code>](#Document)  
+**Read only**: true  
+<a name="Document+cookie"></a>
+
+### document.cookie : [<code>Element</code>](#Element)
+**Kind**: instance property of [<code>Document</code>](#Document)  
+**Read only**: true  
+<a name="Document+createElement"></a>
+
+### document.createElement : [<code>Element</code>](#Element)
 **Kind**: instance property of [<code>Document</code>](#Document)  
 **Read only**: true  
 <a name="Document+title"></a>
