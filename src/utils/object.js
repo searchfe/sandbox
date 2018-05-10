@@ -31,6 +31,16 @@ define(function (require) {
                 }
             };
         },
+        readWriteProperty: function (obj, property) {
+            return {
+                get: function () {
+                    return obj[property];
+                },
+                set: function (val) {
+                    return (obj[property] = val);
+                }
+            };
+        },
         isString: function (value) {
             return value instanceof String || typeof value === 'string';
         }

@@ -37,6 +37,28 @@ define(function (require) {
             expect(sandbox.document.title).to.equal('origin');
         });
 
+        describe('cookie', function () {
+            it('should write cookie', function () {
+                sandbox.document.cookie = 'foo:FOO';
+                expect(document.cookie).to.contain('foo:FOO');
+                sandbox.document.cookie = 'foo:FOO; expires=Thu, 18 Dec 2013 12:00:00 UTC';
+                expect(document.cookie).to.not.contain('foo');
+            });
+            it('should read cookie', function () {
+                document.cookie = 'foo:FOO';
+                expect(sandbox.document.cookie).to.contain('foo:FOO');
+                document.cookie = 'foo:FOO; expires=Thu, 18 Dec 2013 12:00:00 UTC';
+                expect(sandbox.document.cookie).to.not.contain('foo');
+            });
+        });
+
+        describe('createElement', function () {
+            it('should proxy to documentElement', function () {
+                var target = sandbox.document.createElement('div');
+                expect(target).to.have.property('tagName', 'DIV');
+            });
+        });
+
         describe('querySelector', function () {
             it('should proxy to documentElement', function () {
                 var target = sandbox.document.querySelector('.stub-foo');

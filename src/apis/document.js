@@ -67,6 +67,8 @@ define(function (require) {
              * @readonly
              */
             scrollingElement: objUtil.readOnlyValue(new Element(scrollingElement, sandbox)),
+            cookie: objUtil.readWriteProperty(document, 'cookie'),
+            createElement: objUtil.readOnlyMethod(document, 'createElement'),
             querySelector: objUtil.readOnlyValue(querySelector),
             querySelectorAll: objUtil.readOnlyValue(querySelectorAll)
         });
