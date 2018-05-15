@@ -51,8 +51,7 @@ apmjs install @searchfe/sandbox
 具体实现取决于当前浏览器版本，以及当前环境的 Fetch Polyfill</p>
 </dd>
 <dt><a href="#ITimeout">ITimeout</a></dt>
-<dd><p>事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
-根元素以下的事件监听不予监听，见：<a href="https://github.com/searchfe/sandbox/issues/2">https://github.com/searchfe/sandbox/issues/2</a></p>
+<dd><p>定时器接口，用于托管定时器。Window 对象使用了该接口。</p>
 </dd>
 </dl>
 
@@ -117,8 +116,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
 <a name="ITimeout"></a>
 
 ## ITimeout
-事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
-根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
+定时器接口，用于托管定时器。Window 对象使用了该接口。
 
 **Kind**: global interface  
 
@@ -198,7 +196,7 @@ requestAnimationFrame() 是一个有 Polyfill 的 requestAnimationFrame()，相�
 **Kind**: global class  
 
 * [Sandbox](#Sandbox)
-    * [new Sandbox(element)](#new_Sandbox_new)
+    * [new Sandbox(element, [context])](#new_Sandbox_new)
     * [.run()](#Sandbox+run)
     * [.stop()](#Sandbox+stop)
     * [.toggle()](#Sandbox+toggle)
@@ -209,13 +207,14 @@ requestAnimationFrame() 是一个有 Polyfill 的 requestAnimationFrame()，相�
 
 <a name="new_Sandbox_new"></a>
 
-### new Sandbox(element)
+### new Sandbox(element, [context])
 创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
 
 
 | Param | Type | Description |
 | --- | --- | --- |
 | element | <code>function</code> | 沙盒对应的 DOM 根元素 |
+| [context] | <code>Object</code> | 初始化作用域，会被合并到 sandbox.window |
 
 **Example**  
 ```js
