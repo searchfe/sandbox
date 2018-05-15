@@ -1,5 +1,6 @@
 define(function (require) {
     var Sandbox = require('src/sandbox');
+    var mixin = require('src/mixins/timeout');
     describe('apis/timeout', function () {
         var sandbox;
 
@@ -185,6 +186,15 @@ define(function (require) {
                 sandbox.window.requestAnimationFrame(listener);
                 window.requestAnimationFrame(function () {
                     expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+            it('requestAnimFallback should work', function (done) {
+                var begin = Date.now();
+                mixin.requestAnimFallback(function () {
+                    var end = Date.now();
+                    expect(end - begin).to.be.above(10);
+                    expect(end - begin).to.be.below(20);
                     done();
                 });
             });

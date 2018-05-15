@@ -12,6 +12,7 @@ define(function (require) {
      * @class 沙盒实例 创建后默认处于睡眠状态。需要调用 `sandbox.run()` 让它开始工作。
      * @alias Sandbox
      * @param {Function} element 沙盒对应的 DOM 根元素
+     * @param {Object} [context] 初始化作用域，会被合并到 sandbox.window
      * @example
      * require(['@searchfe/sandbox'], function(Sandbox){
      *   var sandbox = new Sandbox(document.querySelector('#app'))
@@ -23,7 +24,7 @@ define(function (require) {
      *   }, 5000);
      * })
      */
-    function Sandbox (element) {
+    function Sandbox (element, context) {
         assert(dom.isElement(element), 'an HTMLElement should be passed to create a sandbox');
         assert(!element.sandbox, 'a sandbox has already craeted for the element');
         element.sandbox = this;
@@ -36,6 +37,7 @@ define(function (require) {
         this.window = new Window(element, this);
         this.document = this.window.document;
         this.state = states.IDLE;
+        obj.assign(this.window, context);
     }
 
     Sandbox.prototype = {

@@ -1,22 +1,10 @@
 /**
- * 事件接口，用于托管全局事件。Window 和 Document 对象实现了该接口。
- * 根元素以下的事件监听不予监听，见：https://github.com/searchfe/sandbox/issues/2
+ * 定时器接口，用于托管定时器。Window 对象使用了该接口。
  *
  * @interface ITimeout
  */
 define(function () {
-    var requestAnimFrame = (function () {
-        return window.requestAnimationFrame ||
-          window.webkitRequestAnimationFrame ||
-          window.mozRequestAnimationFrame ||
-          window.oRequestAnimationFrame ||
-          window.msRequestAnimationFrame ||
-          function (callback) {
-              window.setTimeout(callback, 1000 / 60);
-          };
-    })();
-
-    return function (sandbox, target) {
+    function factory (sandbox, target) {
         var timeouts = Object.create(null);
         var intevals = Object.create(null);
 
@@ -71,7 +59,7 @@ define(function () {
          */
         function requestAnimationFrame (fn) {
             fn = sandbox.delegate.untilRunning(fn);
-            return requestAnimFrame(fn);
+            return factory.requestAnimFrame(fn);
         }
 
         /**
@@ -98,4 +86,17 @@ define(function () {
             clearInterval: { value: clearInterval, writable: false }
         });
     };
+
+    factory.requestAnimFallback = function (callback) {
+        window.setTimeout(callback, 1000 / 60);
+    };
+
+    factory.requestAnimFrame = (window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        factory.requestAnimFallback).bind(window);
+
+    return factory;
 });

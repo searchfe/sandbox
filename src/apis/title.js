@@ -12,11 +12,12 @@ define(function (require) {
             document.title = title;
         });
 
-        Object.defineProperties(target, {
+        Object.defineProperty(target, 'title', {
             get: function () {
                 return title;
             },
             set: function (val) {
+                console.log('setting to', val);
                 document.title = title = val;
             }
         });

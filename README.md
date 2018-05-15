@@ -126,6 +126,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch
     * [.setInterval(fn, timeout)](#ITimeout.setInterval)
     * [.clearInterval(id)](#ITimeout.clearInterval)
     * [.setTimeout(fn, timeout)](#ITimeout.setTimeout)
+    * [.requestAnimationFrame(fn)](#ITimeout.requestAnimationFrame)
     * [.clearTimeout(id)](#ITimeout.clearTimeout)
 
 <a name="ITimeout.setInterval"></a>
@@ -166,6 +167,17 @@ specified piece of code once after the timer expires.
 | --- | --- | --- |
 | fn | <code>function</code> | The scheduled callback |
 | timeout | <code>Number</code> | Time in millisecond |
+
+<a name="ITimeout.requestAnimationFrame"></a>
+
+### ITimeout.requestAnimationFrame(fn)
+requestAnimationFrame() 是一个有 Polyfill 的 requestAnimationFrame()，相当于 16ms 的 timeout
+
+**Kind**: static method of [<code>ITimeout</code>](#ITimeout)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| fn | <code>function</code> | The scheduled callback |
 
 <a name="ITimeout.clearTimeout"></a>
 

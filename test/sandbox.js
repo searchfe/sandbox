@@ -13,6 +13,14 @@ define(function (require) {
                     new Sandbox();
                 }).to.throw(/HTMLElement should be passed/);
             });
+            it('should bind to DOM element', function () {
+                var sandbox = new Sandbox(document.body);
+                expect(document.body.sandbox).to.equal(sandbox);
+            });
+            it('should init window with provide context', function () {
+                var sandbox = new Sandbox(document.body, {foo: 'FOO'});
+                expect(sandbox.window.foo).to.equal('FOO');
+            });
         });
         describe('lifecycle', function () {
             var sandbox;
