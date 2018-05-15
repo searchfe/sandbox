@@ -193,8 +193,8 @@ define(function (require) {
                 var begin = Date.now();
                 mixin.requestAnimFallback(function () {
                     var end = Date.now();
-                    expect(end - begin).to.be.above(10);
-                    expect(end - begin).to.be.below(20);
+                    expect(end - begin).to.be.above(5);
+                    expect(end - begin).to.be.below(25);
                     done();
                 });
             });
