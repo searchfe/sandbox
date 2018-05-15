@@ -5,6 +5,17 @@
  * @interface ITimeout
  */
 define(function () {
+    var requestAnimFrame = (function () {
+        return window.requestAnimationFrame ||
+          window.webkitRequestAnimationFrame ||
+          window.mozRequestAnimationFrame ||
+          window.oRequestAnimationFrame ||
+          window.msRequestAnimationFrame ||
+          function (callback) {
+              window.setTimeout(callback, 1000 / 60);
+          };
+    })();
+
     return function (sandbox, target) {
         var timeouts = Object.create(null);
         var intevals = Object.create(null);
@@ -53,6 +64,17 @@ define(function () {
         }
 
         /**
+         * requestAnimationFrame() 是一个有 Polyfill 的 requestAnimationFrame()，相当于 16ms 的 timeout
+         *
+         * @memberOf ITimeout
+         * @param {Function} fn The scheduled callback
+         */
+        function requestAnimationFrame (fn) {
+            fn = sandbox.delegate.untilRunning(fn);
+            return requestAnimFrame(fn);
+        }
+
+        /**
          * 移除定时器
          *
          * @memberOf ITimeout
@@ -69,6 +91,7 @@ define(function () {
         });
 
         Object.defineProperties(target, {
+            requestAnimationFrame: { value: requestAnimationFrame, writable: false },
             setTimeout: { value: setTimeout, writable: false },
             clearTimeout: { value: clearTimeout, writable: false },
             setInterval: { value: setInterval, writable: false },

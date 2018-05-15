@@ -150,5 +150,44 @@ define(function (require) {
                 });
             });
         });
+
+        describe('requestAnimationFrame', function () {
+            it('should call callback', function (done) {
+                var listener = sinon.spy();
+                sandbox.window.requestAnimationFrame(listener);
+                window.requestAnimationFrame(function () {
+                    expect(listener).to.have.been.calledOnce;
+                    done();
+                });
+            });
+            it('should stop calling callback once stoped', function (done) {
+                var listener = sinon.spy();
+                sandbox.stop();
+                sandbox.window.requestAnimationFrame(listener);
+                window.requestAnimationFrame(function () {
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+            it('should call once become running', function (done) {
+                var listener = sinon.spy();
+                sandbox.stop();
+                sandbox.window.requestAnimationFrame(listener);
+                window.requestAnimationFrame(function () {
+                    sandbox.run();
+                    expect(listener).to.have.been.called;
+                    done();
+                });
+            });
+            it('should stop calling callback once dead', function (done) {
+                var listener = sinon.spy();
+                sandbox.die();
+                sandbox.window.requestAnimationFrame(listener);
+                window.requestAnimationFrame(function () {
+                    expect(listener).to.not.have.been.called;
+                    done();
+                });
+            });
+        });
     });
 });
