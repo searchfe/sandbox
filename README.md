@@ -391,7 +391,6 @@ Location 对象的封装
     * [.scrollingElement](#Document+scrollingElement) : [<code>Element</code>](#Element)
     * [.cookie](#Document+cookie) : [<code>Element</code>](#Element)
     * [.createElement](#Document+createElement) : [<code>Element</code>](#Element)
-    * [.title](#Document+title) : <code>String</code>
 
 <a name="new_Document_new"></a>
 
@@ -444,16 +443,6 @@ Location 对象的封装
 ### document.createElement : [<code>Element</code>](#Element)
 **Kind**: instance property of [<code>Document</code>](#Document)  
 **Read only**: true  
-<a name="Document+title"></a>
-
-### document.title : <code>String</code>
-沙盒文档标题
-
-**Kind**: instance property of [<code>Document</code>](#Document)  
-**Todo**
-
-- [ ] Implement 做一个栈，保证退场后上一个页面（不论是否在沙盒中）的 title 也能恢复
-
 <a name="Element"></a>
 
 ## Element

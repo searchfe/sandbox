@@ -1,7 +1,6 @@
 define(function (require) {
     var objUtil = require('../utils/object');
     var dom = require('../utils/dom');
-    var titleMixin = require('./title');
     var Element = require('./element');
 
     /**
@@ -50,8 +49,6 @@ define(function (require) {
          * @type {Sandbox}
          */
         this.sandbox = sandbox;
-
-        titleMixin(sandbox, this);
 
         Object.defineProperties(this, {
             /**
