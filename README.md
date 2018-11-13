@@ -201,7 +201,9 @@ requestAnimationFrame() 是一个有 Polyfill 的 requestAnimationFrame()，相�
     * [.stop()](#Sandbox+stop)
     * [.toggle()](#Sandbox+toggle)
     * [.die()](#Sandbox+die)
-    * [.on(type, cb)](#Sandbox+on)
+    * [.on(type, cb, once)](#Sandbox+on)
+    * [.one(type, cb)](#Sandbox+one)
+    * [.trigger(type)](#Sandbox+trigger)
     * [.off(type, cb)](#Sandbox+off)
     * [.spawn(child, [context])](#Sandbox+spawn) ⇒ [<code>Sandbox</code>](#Sandbox)
 
@@ -254,8 +256,21 @@ require(['@searchfe/sandbox'], function(Sandbox){
 **Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
 <a name="Sandbox+on"></a>
 
-### sandbox.on(type, cb)
+### sandbox.on(type, cb, once)
 Add a listener to the sandbox, available event types: run, stop, die
+
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>string</code> | the event type |
+| cb | <code>function</code> | the callback |
+| once | <code>boolean</code> | execute only once |
+
+<a name="Sandbox+one"></a>
+
+### sandbox.one(type, cb)
+Attach a handler to an event for the sandbox. The handler is executed at most once per event type.
 
 **Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
 **Throws**:
@@ -265,8 +280,19 @@ Add a listener to the sandbox, available event types: run, stop, die
 
 | Param | Type | Description |
 | --- | --- | --- |
-| type | <code>function</code> | the event type |
+| type | <code>string</code> | the event type |
 | cb | <code>function</code> | the callback |
+
+<a name="Sandbox+trigger"></a>
+
+### sandbox.trigger(type)
+Execute all handlers and behaviors attached to the sandbox for the given event type
+
+**Kind**: instance method of [<code>Sandbox</code>](#Sandbox)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>string</code> | the event type |
 
 <a name="Sandbox+off"></a>
 
@@ -281,7 +307,7 @@ Remove a listener to the sandbox, available event types: run, stop, die
 
 | Param | Type | Description |
 | --- | --- | --- |
-| type | <code>function</code> | the event type |
+| type | <code>string</code> | the event type |
 | cb | <code>function</code> | the callback |
 
 <a name="Sandbox+spawn"></a>

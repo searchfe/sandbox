@@ -25,8 +25,7 @@ require.config({
 
     // external AMD modules
     paths: {
-        '@searchfe/assert': 'amd_modules/@searchfe/assert',
-        '@searchfe/underscore': 'amd_modules/@searchfe/underscore'
+        '@searchfe/assert': 'amd_modules/@searchfe/assert'
     },
 
     // we have to kickoff jasmine, as it is asynchronous
