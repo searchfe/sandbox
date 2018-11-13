@@ -90,29 +90,54 @@ define(function (require) {
         /**
          * Add a listener to the sandbox, available event types: run, stop, die
          *
-         * @param {Function} type the event type
+         * @param {string} type the event type
          * @param {Function} cb the callback
-         * @throws {Error} event type not defined
+         * @param {boolean} once execute only once
          */
-        on: function (type, cb) {
-            assert(this.listeners[type], 'event type ' + type + ' not defined');
-            cb && this.listeners[type].push(cb);
+        on: function (type, cb, once) {
+            // assert(this.listeners[type], 'event type ' + type + ' not defined');
+            if (!this.listeners[type]) {
+                this.listeners[type] = [];
+            }
+            cb && this.listeners[type].push({
+                function: cb,
+                once: !!once
+            });
         },
 
         /**
-         * @private
+         * Attach a handler to an event for the sandbox. The handler is executed at most once per event type.
+         *
+         * @param {string} type the event type
+         * @param {Function} cb the callback
+         * @throws {Error} event type not defined
+         */
+        one: function (type, cb) {
+            return this.on(type, cb, true);
+        },
+
+        /**
+         * Execute all handlers and behaviors attached to the sandbox for the given event type
+         *
+         * @param {string} type the event type
          */
         trigger: function (type) {
             assert(this.listeners[type], 'event type ' + type + ' not defined');
-            this.listeners[type].forEach(function (listener) {
-                listener();
-            });
+            var listeners = this.listeners[type].slice(0);
+            var len = listeners.length;
+            while (len--) {
+                var listener = listeners[len];
+                if (listener.once === true) {
+                    this.off(type, listener.function);
+                }
+                listener.function();
+            }
         },
 
         /**
          * Remove a listener to the sandbox, available event types: run, stop, die
          *
-         * @param {Function} type the event type
+         * @param {string} type the event type
          * @param {Function} cb the callback
          * @throws {Error} event type not defined
          */
@@ -120,7 +145,7 @@ define(function (require) {
             assert(this.listeners[type], 'event type ' + type + ' not defined');
             var list = this.listeners[type];
             for (var i = 0; i < list.length; i++) {
-                if (list[i] === cb) {
+                if (list[i].function === cb) {
                     list.splice(i--, 1);
                 }
             }

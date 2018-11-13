@@ -25,16 +25,22 @@ define(function (require) {
         describe('lifecycle', function () {
             var sandbox;
             var onRun;
+            var oneRun;
             var onStop;
             var onDie;
+            var onOther;
             beforeEach(function () {
                 onRun = sinon.spy();
+                oneRun = sinon.spy();
                 onStop = sinon.spy();
                 onDie = sinon.spy();
+                onOther = sinon.spy();
                 sandbox = new Sandbox(document.body);
                 sandbox.on('run', onRun);
                 sandbox.on('stop', onStop);
                 sandbox.on('die', onDie);
+                sandbox.one('run', oneRun);
+                sandbox.on('other', onOther);
             });
             it('should trigger run event', function () {
                 sandbox.run();
@@ -76,10 +82,21 @@ define(function (require) {
                 sandbox.stop();
                 expect(onRun).to.have.been.calledOnce;
             });
+            it('should support one event handlers', function () {
+                sandbox.run();
+                sandbox.stop();
+                sandbox.run();
+                expect(oneRun).to.have.been.calledOnce;
+            });
             it('should support off event handlers', function () {
                 sandbox.off('run', onRun);
                 sandbox.run();
                 expect(onRun).to.not.have.been.called;
+            });
+            it('should support handle custom event', function () {
+                sandbox.run();
+                sandbox.trigger('other');
+                expect(onOther).to.have.been.called;
             });
             it('should only off the given handler', function () {
                 var spy = sinon.spy();

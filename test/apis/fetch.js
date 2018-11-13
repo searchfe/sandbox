@@ -34,6 +34,7 @@ define(function (require) {
         });
 
         it('should catch error', function (done) {
+            this.timeout(5000);
             sandbox.window.fetch('/foo', {method: 'fuck'})
             .catch(function (err) {
                 expect(err).to.be.instanceOf(TypeError);
