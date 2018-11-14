@@ -1,6 +1,6 @@
 {
   "name": "@searchfe/sandbox",
-  "version": "1.5.1",
+  "version": "1.5.3",
   "dependencies": {
     "@searchfe/assert": {
       "version": "1.0.0",
