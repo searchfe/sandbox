@@ -1,6 +1,6 @@
 {
   "name": "@searchfe/sandbox",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "A lightweight sandbox implementation for the frontend",
   "main": "src/sandbox.js",
   "scripts": {
