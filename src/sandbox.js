@@ -122,7 +122,9 @@ define(function (require) {
          * @param {string} type the event type
          */
         trigger: function (type) {
-            assert(this.listeners[type], 'event type ' + type + ' not defined');
+            if (!this.listeners[type]) {
+                return;
+            }
             var listeners = this.listeners[type].slice(0);
             var len = listeners.length;
             while (len--) {
