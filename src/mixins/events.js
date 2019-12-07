@@ -30,7 +30,7 @@ define(function () {
          * @param {Boolean} useCapture Whether or not use capture
          */
         function removeEventListener (event, cb, useCapture) {
-            var item = retrieve(event, cb, useCapture);
+            var item = findAndRemove(event, cb, useCapture);
             if (item) {
                 window.removeEventListener(event, item.listener, useCapture);
             }
@@ -44,11 +44,12 @@ define(function () {
             });
         }
 
-        function retrieve (event, cb, useCapture) {
+        function findAndRemove (event, cb, useCapture) {
             var list = listeners[event];
             for (var i = 0; i < list.length; i++) {
                 var item = list[i];
                 if (item.cb === cb && item.useCapture === useCapture) {
+                    list.splice(i, 1);
                     return item;
                 }
             }

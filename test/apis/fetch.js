@@ -33,15 +33,6 @@ define(function (require) {
             });
         });
 
-        it('should catch error', function (done) {
-            this.timeout(5000);
-            sandbox.window.fetch('/foo', {method: 'fuck'})
-            .catch(function (err) {
-                expect(err).to.be.instanceOf(TypeError);
-                done();
-            });
-        });
-
         it('should keep pending when stopped', function (done) {
             var state = 'pending';
             sandbox.window.fetch('/').then(function (res) {
